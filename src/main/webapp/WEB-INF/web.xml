@@ -1,0 +1,36 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         metadata-complete="false"
+         version="2.5">
+
+    <display-name>Camera Notifier</display-name>
+
+    <filter>
+        <filter-name>CameraAuthorizationFilter</filter-name>
+        <filter-class>org.djr.camera.auth.CameraAuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CameraAuthorizationFilter</filter-name>
+        <url-pattern>/api/camera/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CameraPostFilter</filter-name>
+        <filter-class>org.djr.camera.post.CameraPostFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CameraPostFilter</filter-name>
+        <url-pattern>/api/camera/post/*</url-pattern>
+    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>RequestFilter</filter-name>-->
+        <!--<filter-class>org.djr.camera.request.RequestFilter</filter-class>-->
+    <!--</filter>-->
+
+    <!--<filter-mapping>-->
+        <!--<filter-name>RequestFilter</filter-name>-->
+        <!--<url-pattern>/api/camera/*</url-pattern>-->
+    <!--</filter-mapping>-->
+</web-app>
