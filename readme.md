@@ -16,7 +16,7 @@ Purpose of this application is to provider owners of Sercomm cameras(tested with
   <!-- activate next line to be able to deploy applications in apps -->
   <!-- <Deployments dir="apps" /> -->
   	<Resource id="mail" type="javax.mail.Session">
-   		mail.smtp.host=your smtp host
+   		mail.smtp.host=smtp.gmail.com
    		mail.smtp.starttls.enable=true
    		mail.smtp.port=587
    		mail.transport.protocol=smtp
