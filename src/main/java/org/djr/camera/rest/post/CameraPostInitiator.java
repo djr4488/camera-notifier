@@ -1,4 +1,4 @@
-package org.djr.camera.post;
+package org.djr.camera.rest.post;
 
 import com.codahale.metrics.annotation.Timed;
 import org.djr.camera.CameraPostEvent;

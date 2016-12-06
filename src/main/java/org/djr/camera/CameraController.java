@@ -1,6 +1,6 @@
 package org.djr.camera;
 
-import org.djr.camera.email.EmailService;
+import org.djr.camera.messaging.email.EmailService;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;

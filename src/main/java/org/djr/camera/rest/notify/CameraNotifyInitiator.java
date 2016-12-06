@@ -1,4 +1,4 @@
-package org.djr.camera.notify;
+package org.djr.camera.rest.notify;
 
 import com.codahale.metrics.annotation.Timed;
 import org.djr.camera.CameraNotifyEvent;

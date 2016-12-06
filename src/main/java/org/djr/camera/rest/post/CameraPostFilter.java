@@ -1,4 +1,4 @@
-package org.djr.camera.post;
+package org.djr.camera.rest.post;
 
 import java.io.File;
 import java.io.FileOutputStream;

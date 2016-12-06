@@ -17,7 +17,7 @@
 
     <filter>
         <filter-name>CameraPostFilter</filter-name>
-        <filter-class>org.djr.camera.post.CameraPostFilter</filter-class>
+        <filter-class>org.djr.camera.rest.post.CameraPostFilter</filter-class>
     </filter>
 
     <filter-mapping>

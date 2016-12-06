@@ -1,4 +1,4 @@
-package org.djr.camera.email;
+package org.djr.camera.messaging.email;
 
 import com.djr4488.metrics.config.Configurator;
 import org.djr.camera.CameraPostEvent;

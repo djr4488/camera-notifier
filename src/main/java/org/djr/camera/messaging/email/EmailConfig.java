@@ -1,4 +1,4 @@
-package org.djr.camera.email;
+package org.djr.camera.messaging.email;
 
 import org.aeonbits.owner.Config;
 
