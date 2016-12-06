@@ -35,9 +35,9 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
 9. This should be it, at this point your camera should talk to this app and send you emails when it sees any motion
 
 ## TODOs
-1. Add database configuratio to tomee.xml
+1. Add database configuration to tomee.xml
 2. Add entities for users, cameras
-3. Add rest endpoints to all for creating users, changing and recovering passwords.
+3. Add rest endpoints to allow for creating users, changing and recovering passwords.
 4. Add front end so nobody has to call rest endpoints directly
 5. Consider making this a fatjar for easier deployment
 
