@@ -262,11 +262,11 @@
 
         <!--metrics-->
         <dependency>
-            <groupId>org.djr.metrics</groupId>
-            <artifactId>metrics-cdi-extensions</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+	    <groupId>com.github.djr4488</groupId>
+	    <artifactId>metrics</artifactId>
+	    <version>1.0.0</version>
+             <scope>compile</scope>
+	</dependency>
     </dependencies>
     <!--
     This section allows you to configure where to publish libraries for sharing.
