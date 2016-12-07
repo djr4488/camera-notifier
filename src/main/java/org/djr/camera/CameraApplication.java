@@ -17,8 +17,6 @@ import java.util.Set;
 public class CameraApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
-        return new HashSet<Class<?>>(Arrays.asList(CameraNotifyInitiator.class, CameraPostInitiator.class,
-                MetricsApi.class));
-
+        return new HashSet<Class<?>>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class));
     }
 }
