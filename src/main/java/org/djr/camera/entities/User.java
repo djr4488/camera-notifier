@@ -5,7 +5,12 @@ import org.djr.camera.entities.Identifiable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * Created by djr4488 on 12/6/16.
@@ -14,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "users",
         indexes = { @Index(name="id_index", columnList = "id"),
                     @Index(name = "user_name_index", unique = true, columnList = "userName")})
+@NamedQueries(
+        {@NamedQuery(name = "findByUserName",
+                     query = "select user from User user where user.userName = :userName")}
+)
 public class User extends Identifiable {
     private static final long serialVersionUID = 1L;
     @Column(name = "user_name", nullable = false)
@@ -22,6 +31,9 @@ public class User extends Identifiable {
     private String password;
     @Column(name = "email_address")
     private String emailAddress;
+    @OneToMany
+    @JoinColumn(referencedColumnName = "user_id")
+    private List<Camera> cameras;
 
     public String getUserName() {
         return userName;
@@ -45,5 +57,13 @@ public class User extends Identifiable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public List<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(List<Camera> cameras) {
+        this.cameras = cameras;
     }
 }

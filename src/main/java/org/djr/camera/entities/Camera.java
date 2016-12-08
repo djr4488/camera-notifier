@@ -2,6 +2,8 @@ package org.djr.camera.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -13,8 +15,7 @@ public class Camera extends Identifiable {
     private static final long serialVersionUID = 1L;
     @Column(name = "camera_name", nullable = false)
     private String cameraName;
-    // the following three are place holders if I am able to figure out how to use the http_trigger.cgi
-    // if not, these are pretty pointless
+    // the following three fields used to trigger an http event on the camera to capture a video/audio stream
     @Column(name = "camera_url", nullable = true)
     private String cameraUrl;
     @Column(name = "camera_username", nullable = true)
