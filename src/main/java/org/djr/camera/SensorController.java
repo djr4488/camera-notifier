@@ -45,6 +45,9 @@ public class SensorController {
     }
 
     private void doHttpTrigger(Camera camera) {
-
+        boolean successful = cameraHttpTriggerService.doCameraTrigger(camera.getCameraUserName(), camera.getCameraPassword());
+        if (!successful) {
+            //TODO do throw exception handle it in exception mapper
+        }
     }
 }
