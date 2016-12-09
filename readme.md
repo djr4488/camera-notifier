@@ -19,15 +19,26 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
   <!-- activate next line to be able to deploy applications in apps -->
   <!-- <Deployments dir="apps" /> -->
   	<Resource id="mail" type="javax.mail.Session">
-   		mail.smtp.host=smtp.gmail.com
-   		mail.smtp.starttls.enable=true
-   		mail.smtp.port=587
-   		mail.transport.protocol=smtp
-   		mail.smtp.auth=true
-   		mail.smtp.user=your email address
-   		mail.smtp.password=your password
-   		password=your password again?  not sure this is needed
+            mail.smtp.host=smtp.gmail.com
+            mail.smtp.starttls.enable=true
+            mail.smtp.port=587
+            mail.transport.protocol=smtp
+            mail.smtp.auth=true
+            mail.smtp.user=your email address
+            mail.smtp.password=your password
+            password=your password again?  not sure this is needed
 	</Resource>
+	<Resource id="jdbc/camera_notifier" type="javax.sql.DataSource">
+            JdbcUrl=jdbc:mysql://localhost:3306/camera_notifier
+            UserName=********
+            Password=********
+            JdbcDriver=com.mysql.jdbc.Driver
+            MinIdle=5
+            MaxWait=2500
+            InitialSize=5
+            ValidationQuery=SELECT 1
+            TestOnBorrow=true
+    </Resource>
 </tomee>
 ```
 7. Compile the war file(eventually I will provide a self executable jar, this is still an app in very early development)
@@ -35,11 +46,12 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
 9. This should be it, at this point your camera should talk to this app and send you emails when it sees any motion
 
 ## TODOs
-1. Add database configuration to tomee.xml
-2. Add entities for users, cameras
-3. Add rest endpoints to allow for creating users, changing and recovering passwords.
-4. Add front end so nobody has to call rest endpoints directly
-5. Consider making this a fatjar for easier deployment
+1. ~~Add database configuration to tomee.xml~~
+2. ~~Add entities for users, cameras~~
+3. Finish authorization endpoints, filters, services and utilities
+4. Add rest endpoints to allow for creating users, changing and recovering passwords.
+5. Add front end so nobody has to call rest endpoints directly
+6. Consider making this a fatjar for easier deployment
 
 All of the above depends on level of interest in the application, and how much free time I continue to have and whether ultimately, anybody wishes to donate time, talent, or the root of all evils money to help further this along.
 
