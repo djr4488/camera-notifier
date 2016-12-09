@@ -24,6 +24,15 @@
         <filter-name>CameraPostFilter</filter-name>
         <url-pattern>/api/camera/post/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>SensorAuthorizationFilter</filter-name>
+        <filter-class>org.djr.camera.auth.SensorAuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SensorAuthorizationFilter</filter-name>
+        <url-pattern>/api/sensor/*</url-pattern>
+    </filter-mapping>
     <!--<filter>-->
         <!--<filter-name>RequestFilter</filter-name>-->
         <!--<filter-class>org.djr.camera.request.RequestFilter</filter-class>-->

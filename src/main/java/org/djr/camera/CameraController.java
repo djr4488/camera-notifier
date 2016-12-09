@@ -1,6 +1,7 @@
 package org.djr.camera;
 
 import org.djr.camera.messaging.email.EmailService;
+import org.djr.camera.services.CameraEventService;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,9 +17,16 @@ public class CameraController {
     private Logger log;
     @Inject
     private EmailService emailService;
+    @Inject
+    private CameraEventService cameraEventService;
 
     public void handleCameraPostEvent(@Observes CameraPostEvent cameraPostEvent) {
         log.debug("handleCameraPostEvent() cameraPostEvent:{}", cameraPostEvent);
+        try {
+            cameraEventService.persistCameraPostEvent(cameraPostEvent);
+        } catch (Exception ex) {
+            log.error("handleCameraPostEvent() cameraPostEvent:{} failed to write to database with exception:{}", cameraPostEvent, ex);
+        }
         emailService.sendFileAttachmentEmail(cameraPostEvent);
         cameraPostEvent.getFile().delete();
     }

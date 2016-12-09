@@ -33,8 +33,8 @@ public class SensorAuthorizationFilter implements Filter {
         log.info("doFilter() entered");
         //for now hard coding userName and cameraName for testing plumbing
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest);
-        wrapper.setAttribute("userName", "testUser");
-        wrapper.setAttribute("password", "cameraName");
+        wrapper.setAttribute("userName", "test");
+        wrapper.setAttribute("zoneName", "FrontDoor");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

@@ -15,9 +15,9 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationScoped
 public class CameraHttpTriggerService {
-    public boolean doCameraTrigger(String cameraUserName, String cameraPassword) {
+    public boolean doCameraTrigger(String cameraUserName, String cameraPassword, String cameraURL) {
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://192.168.1.183/adm/http_trigger.cgi");
+        WebTarget target = client.target(cameraURL);
         Invocation.Builder invocation = target.request(MediaType.TEXT_HTML_TYPE)
                 .header("Authorization", "Basic " + getAuthorizationToken(cameraUserName, cameraPassword));
         Response response = invocation.get();

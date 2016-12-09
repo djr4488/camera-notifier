@@ -3,6 +3,8 @@ package org.djr.camera;
 import com.djr4488.metrics.rest.MetricsApi;
 import org.djr.camera.rest.notify.CameraNotifyInitiator;
 import org.djr.camera.rest.post.CameraPostInitiator;
+import org.djr.camera.rest.sensor.AddUserInitiator;
+import org.djr.camera.rest.sensor.SensorInitiator;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -17,6 +19,7 @@ import java.util.Set;
 public class CameraApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
-        return new HashSet<Class<?>>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class));
+        return new HashSet<>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class,
+                AddUserInitiator.class, SensorInitiator.class));
     }
 }

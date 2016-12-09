@@ -5,14 +5,14 @@ package org.djr.camera;
  */
 public class SensorEvent {
     private  String userName;
-    private String cameraName;
+    private String sensorZone;
 
     public SensorEvent() {
     }
 
-    public SensorEvent(String userName, String cameraName) {
+    public SensorEvent(String userName, String sensorZone) {
         this.userName = userName;
-        this.cameraName = cameraName;
+        this.sensorZone = sensorZone;
     }
 
     public String getUserName() {
@@ -23,11 +23,11 @@ public class SensorEvent {
         this.userName = userName;
     }
 
-    public String getCameraName() {
-        return cameraName;
+    public String getSensorZone() {
+        return sensorZone;
     }
 
-    public void setCameraName(String cameraName) {
-        this.cameraName = cameraName;
+    public void setSensorZone(String sensorZone) {
+        this.sensorZone = sensorZone;
     }
 }

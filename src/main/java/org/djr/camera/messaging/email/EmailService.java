@@ -2,6 +2,7 @@ package org.djr.camera.messaging.email;
 
 import com.djr4488.metrics.config.Configurator;
 import org.djr.camera.CameraPostEvent;
+import org.djr.camera.CameraUtilities;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
@@ -105,20 +106,6 @@ public class EmailService {
     }
 
     private String getDateAsString(CameraPostEvent cameraPostEvent) {
-        DateTime now = DateTime.now();
-        String dateTime = cameraPostEvent.getxTimeStampedFile();
-        int year = Integer.parseInt(dateTime.substring(0, 2));
-        int month = Integer.parseInt(dateTime.substring(2, 4));
-        int day = Integer.parseInt(dateTime.substring(4, 6));
-        int hour = Integer.parseInt(dateTime.substring(6, 8));
-        int minute = Integer.parseInt(dateTime.substring(8, 10));
-        int second = Integer.parseInt(dateTime.substring(10, 12));
-        now.withYear(year);
-        now.withMonthOfYear(month);
-        now.withDayOfMonth(day);
-        now.withHourOfDay(hour);
-        now.withMinuteOfHour(minute);
-        now.withSecondOfMinute(second);
-        return now.toString();
+        return CameraUtilities.getDateTime(cameraPostEvent).toString();
     }
 }

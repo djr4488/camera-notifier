@@ -27,17 +27,17 @@ public class SensorController {
         log.debug("handleSensorEvent() sensorEvent:{}", sensorEvent);
         //TODO look up user for now hard code something to test plumbing
         User user = userLookupService.lookupUserByUserName(sensorEvent.getUserName());
-        Camera camera = getCameraByName(sensorEvent.getCameraName(), user);
+        Camera camera = getCameraByName(sensorEvent.getSensorZone(), user);
         if (null != camera) {
             doHttpTrigger(camera);
         } else {
-            log.debug("handleSensorEvent() camera:{} not found", sensorEvent.getCameraName());
+            log.debug("handleSensorEvent() zone:{} not found", sensorEvent.getSensorZone());
         }
     }
 
-    private Camera getCameraByName(String cameraName, User user) {
+    private Camera getCameraByName(String sensorZone, User user) {
         for (Camera camera : user.getCameras()) {
-            if (cameraName.trim().equalsIgnoreCase(camera.getCameraName().trim())) {
+            if (sensorZone.trim().equalsIgnoreCase(camera.getCameraZone().trim())) {
                 return camera;
             }
         }
@@ -45,7 +45,8 @@ public class SensorController {
     }
 
     private void doHttpTrigger(Camera camera) {
-        boolean successful = cameraHttpTriggerService.doCameraTrigger(camera.getCameraUserName(), camera.getCameraPassword());
+        boolean successful =
+                cameraHttpTriggerService.doCameraTrigger(camera.getCameraUserName(), camera.getCameraPassword(), camera.getCameraUrl());
         if (!successful) {
             //TODO do throw exception handle it in exception mapper
         }

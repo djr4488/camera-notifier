@@ -4,13 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * Created by djr4488 on 12/6/16.
  */
 @Entity
 @Table(name = "cameras")
+@NamedQueries(
+        @NamedQuery(name = "findByCameraNameAndUserName",
+                    query = "select camera from Camera camera " +
+                            "where camera.cameraName = :cameraName and camera.user.userName = :userName")
+)
 public class Camera extends Identifiable {
     private static final long serialVersionUID = 1L;
     @Column(name = "camera_name", nullable = false)
@@ -22,6 +31,8 @@ public class Camera extends Identifiable {
     private String cameraUserName;
     @Column(name = "camera_password", nullable = true)
     private String cameraPassword;
+    @Column(name = "camera_zone", nullable = true)
+    private String cameraZone;
     @Column(name = "camera_process_event_http_post", nullable = false)
     private boolean cameraProcessEventHttpPost;
     @Column(name = "camera_process_event_http_notify", nullable = false)
@@ -31,6 +42,12 @@ public class Camera extends Identifiable {
     private boolean sendNotifyEventAsSms;
     @Column(name = "send_notify_event_as_email", nullable = false)
     private boolean sendNotifyEventAsEmail;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    @OneToMany
+    @JoinColumn(name = "camera_event_id", referencedColumnName = "id")
+    private List<CameraEvent> cameraEvents;
 
     public String getCameraName() {
         return cameraName;
@@ -64,6 +81,14 @@ public class Camera extends Identifiable {
         this.cameraPassword = cameraPassword;
     }
 
+    public String getCameraZone() {
+        return cameraZone;
+    }
+
+    public void setCameraZone(String cameraZone) {
+        this.cameraZone = cameraZone;
+    }
+
     public boolean isCameraProcessEventHttpPost() {
         return cameraProcessEventHttpPost;
     }
@@ -94,5 +119,21 @@ public class Camera extends Identifiable {
 
     public void setSendNotifyEventAsEmail(boolean sendNotifyEventAsEmail) {
         this.sendNotifyEventAsEmail = sendNotifyEventAsEmail;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<CameraEvent> getCameraEvents() {
+        return cameraEvents;
+    }
+
+    public void setCameraEvents(List<CameraEvent> cameraEvents) {
+        this.cameraEvents = cameraEvents;
     }
 }

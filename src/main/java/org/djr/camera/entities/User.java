@@ -32,8 +32,11 @@ public class User extends Identifiable {
     @Column(name = "email_address")
     private String emailAddress;
     @OneToMany
-    @JoinColumn(referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Camera> cameras;
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<UserLogin> userLogins;
 
     public String getUserName() {
         return userName;
