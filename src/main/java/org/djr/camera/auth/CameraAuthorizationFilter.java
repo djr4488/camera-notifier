@@ -33,12 +33,14 @@ public class CameraAuthorizationFilter implements Filter {
                 HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest);
                 wrapper.setAttribute("userName", userNameAndPasswordArray[0]);
                 wrapper.setAttribute("password", userNameAndPasswordArray[1]);
+                log.debug("doFilter() auth:{}", userNameAndPasswordArray);
                 filterChain.doFilter(servletRequest, servletResponse);
             } catch (Exception ex) {
                 log.error("authorization error cannot decode auth", ex);
                 throw new ServletException("Failed to authorization camera");
             }
         } else {
+            log.debug("doFilter() no userName found");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

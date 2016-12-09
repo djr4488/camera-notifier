@@ -46,7 +46,7 @@ public class Camera extends Identifiable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @OneToMany
-    @JoinColumn(name = "camera_event_id", referencedColumnName = "id")
+    @JoinColumn(name = "camera_id", referencedColumnName = "id")
     private List<CameraEvent> cameraEvents;
 
     public String getCameraName() {

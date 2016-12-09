@@ -31,6 +31,9 @@ public class CameraEventService {
         CameraEvent cameraEvent = new CameraEvent(cameraPostEvent.getFile().getName(), cameraPostEvent.getContentType(),
                 Long.parseLong(cameraPostEvent.getContentLength()), eventTime.toDate(), cameraPostEvent.getxTriggerType(),
                 cameraPostEvent.getxEventInfo(), cameraPostEvent.getHost(), cameraPostEvent.getFile());
+        DateTime now = DateTime.now();
+        cameraEvent.setCreatedAt(now.toDate());
+        cameraEvent.setLastUpdatedAt(now.toDate());
         TypedQuery<Camera> cameraQuery = em.createNamedQuery("findByCameraNameAndUserName", Camera.class);
         cameraQuery.setParameter("cameraName", cameraPostEvent.getCameraName());
         cameraQuery.setParameter("userName", cameraPostEvent.getUserName());
