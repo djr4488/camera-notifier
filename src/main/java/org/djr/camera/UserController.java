@@ -2,6 +2,7 @@ package org.djr.camera;
 
 import org.djr.camera.auth.utils.PasswordUtils;
 import org.djr.camera.entities.User;
+import org.djr.camera.exceptions.BusinessException;
 import org.djr.camera.exceptions.SystemException;
 import org.djr.camera.rest.user.add.AddUserRequest;
 import org.djr.camera.services.UserLookupService;
@@ -35,8 +36,11 @@ public class UserController {
             try {
                 userLookupService.persistNewUser(user);
             } catch (Exception ex) {
-
+                //TODO specify exact business exception later
+                throw new BusinessException("Could not persist user", ex);
             }
+        } else {
+            throw new BusinessException("Could not persist user, because user already exists.");
         }
     }
 

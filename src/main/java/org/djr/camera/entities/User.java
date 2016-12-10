@@ -25,7 +25,7 @@ import java.util.List;
 )
 public class User extends Identifiable {
     private static final long serialVersionUID = 1L;
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
     @Column(name = "password", nullable = false)
     private String password;
