@@ -1,6 +1,8 @@
 package org.djr.camera.services;
 
 import org.djr.camera.entities.User;
+import org.djr.camera.entities.UserLogin;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
 import javax.ejb.Stateless;
@@ -38,5 +40,10 @@ public class UserLookupService {
     public User persistNewUser(User user) {
         em.persist(user);
         return user;
+    }
+
+    public void addUserLogin(User user, String ipAddress, boolean success, String event) {
+        UserLogin userLogin = new UserLogin(DateTime.now().toDate(), ipAddress, success, user, event);
+        em.persist(userLogin);
     }
 }

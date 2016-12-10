@@ -37,6 +37,10 @@ public abstract class Identifiable implements Serializable {
         this.id = id;
     }
 
+    public long getId() {
+        return this.id;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }

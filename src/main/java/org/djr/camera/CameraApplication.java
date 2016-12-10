@@ -5,6 +5,7 @@ import org.djr.camera.rest.notify.CameraNotifyInitiator;
 import org.djr.camera.rest.post.CameraPostInitiator;
 import org.djr.camera.rest.user.add.AddUserInitiator;
 import org.djr.camera.rest.sensor.SensorInitiator;
+import org.djr.camera.rest.user.login.LoginInitiator;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -20,6 +21,6 @@ public class CameraApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class,
-                AddUserInitiator.class, SensorInitiator.class));
+                AddUserInitiator.class, SensorInitiator.class, LoginInitiator.class));
     }
 }

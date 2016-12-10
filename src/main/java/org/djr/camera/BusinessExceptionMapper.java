@@ -3,6 +3,7 @@ package org.djr.camera;
 import org.djr.camera.exceptions.BusinessException;
 import org.djr.camera.log.LogEvent;
 import org.djr.camera.log.LogType;
+import org.djr.camera.rest.user.add.UserExistsException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -23,8 +24,13 @@ public class BusinessExceptionMapper implements ExceptionMapper<BusinessExceptio
     @Override
     public Response toResponse(BusinessException e) {
         Response resp;
-        resp = Response.status(Response.Status.BAD_REQUEST).build();
-        logEventBus.fire(new LogEvent(LogType.DEBUG, "toResponse() error occurred", null, e));
+        if (e instanceof UserExistsException) {
+            resp = Response.status(Response.Status.CONFLICT).build();
+            logEventBus.fire(new LogEvent(LogType.DEBUG, "toResponse() error occurred", null, e));
+        } else {
+            resp = Response.status(Response.Status.BAD_REQUEST).build();
+            logEventBus.fire(new LogEvent(LogType.DEBUG, "toResponse() error occurred", null, e));
+        }
         return resp;
     }
 }

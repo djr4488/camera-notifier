@@ -29,6 +29,8 @@ public class User extends Identifiable {
     private String userName;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "salt", nullable = false)
+    private String salt;
     @Column(name = "email_address")
     private String emailAddress;
     @OneToMany
@@ -60,6 +62,14 @@ public class User extends Identifiable {
         this.password = password;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -74,5 +84,13 @@ public class User extends Identifiable {
 
     public void setCameras(List<Camera> cameras) {
         this.cameras = cameras;
+    }
+
+    public List<UserLogin> getUserLogins() {
+        return userLogins;
+    }
+
+    public void setUserLogins(List<UserLogin> userLogins) {
+        this.userLogins = userLogins;
     }
 }

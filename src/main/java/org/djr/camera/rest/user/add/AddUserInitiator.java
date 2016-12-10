@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -25,14 +26,11 @@ import javax.ws.rs.core.Response;
 /**
  * Created by djr4488 on 12/8/16.
  */
-@Stateless
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@ApplicationScoped
 @Path("user")
 public class AddUserInitiator {
     @Inject
     private Logger log;
-    @PersistenceContext(unitName = "camera_notifier")
-    private EntityManager em;
     @Inject
     private Event<AddUserRequest> eventBus;
 

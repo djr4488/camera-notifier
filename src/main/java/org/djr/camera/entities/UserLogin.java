@@ -1,5 +1,7 @@
 package org.djr.camera.entities;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -29,11 +31,17 @@ public class UserLogin extends Identifiable {
     private User user;
 
     public UserLogin() {
+        this.setCreatedAt(DateTime.now().toDate());
+        this.setLastUpdatedAt(DateTime.now().toDate());
     }
 
-    public UserLogin(Date loginDate, String ipAddress) {
+    public UserLogin(Date loginDate, String ipAddress, boolean successfulLogin, User user, String event) {
+        this();
         this.loginDate = loginDate;
         this.ipAddress = ipAddress;
+        this.successfulLogin = successfulLogin;
+        this.user = user;
+        this.event = event;
     }
 
     public Date getLoginDate() {
