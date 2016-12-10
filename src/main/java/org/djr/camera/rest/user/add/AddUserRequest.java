@@ -1,4 +1,4 @@
-package org.djr.camera.rest.sensor;
+package org.djr.camera.rest.user.add;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

@@ -1,6 +1,6 @@
 package org.djr.camera.entities;
 
-import org.djr.camera.entities.Identifiable;
+import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +37,12 @@ public class User extends Identifiable {
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserLogin> userLogins;
+
+    public User() {
+        DateTime now = DateTime.now();
+        this.setCreatedAt(now.toDate());
+        this.setLastUpdatedAt(now.toDate());
+    }
 
     public String getUserName() {
         return userName;

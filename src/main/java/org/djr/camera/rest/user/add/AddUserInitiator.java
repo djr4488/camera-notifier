@@ -1,13 +1,13 @@
-package org.djr.camera.rest.sensor;
+package org.djr.camera.rest.user.add;
 
 import org.djr.camera.entities.User;
+import org.djr.camera.rest.user.add.AddUserRequest;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -21,7 +21,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
 
 /**
  * Created by djr4488 on 12/8/16.
@@ -45,16 +44,5 @@ public class AddUserInitiator {
         log.info("addUser() addUserRequest:{}", addUserRequest);
         eventBus.fire(addUserRequest);
         return Response.ok().build();
-    }
-
-    public void addUserObserver(@Observes AddUserRequest request) {
-        User u = new User();
-        DateTime now = DateTime.now();
-        u.setUserName(request.getUserName());
-        u.setPassword(request.getPassword());
-        u.setEmailAddress(request.getEmailAddress());
-        u.setCreatedAt(now.toDate());
-        u.setLastUpdatedAt(now.toDate());
-        em.persist(u);
     }
 }
