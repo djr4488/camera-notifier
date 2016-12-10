@@ -33,7 +33,7 @@ public class CameraPostInitiator {
     @Timed
     public Response doCameraPost(@Context HttpServletRequest request, @PathParam(value="camera") String camera) {
         log.debug("doCameraPost() entered camera:{}", camera);
-        CameraPostEvent cameraPostEvent = new CameraPostEvent(camera, request.getHeader("host"),
+        CameraPostEvent cameraPostEvent = new CameraPostEvent(camera, request.getRemoteHost(),
                 request.getHeader("authorization"), (String)request.getAttribute("userName"), (String)request.getAttribute("password"),
                 (File)request.getAttribute("file"), request.getHeader("content-type"),
                 request.getHeader("content-length"), request.getHeader("x-timestampedfile"), request.getHeader("x-triggertype"),

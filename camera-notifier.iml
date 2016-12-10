@@ -21,7 +21,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="camera_notifier" />
+          <factory-entry name="camera_notifier" value="e80034f3-f407-451a-b982-da663c4962c2" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/persistence.xml" />
       </configuration>

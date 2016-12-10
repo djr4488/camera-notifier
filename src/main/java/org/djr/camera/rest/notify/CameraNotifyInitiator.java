@@ -36,7 +36,7 @@ public class CameraNotifyInitiator {
     @Timed
     public Response doCameraNotify(@Context HttpServletRequest request, @PathParam(value = "camera") String camera) {
         log.info("doCameraNotify() entered camera:{}", camera);
-        CameraNotifyEvent cameraNotifyEvent = new CameraNotifyEvent(camera, request.getHeader("host"),
+        CameraNotifyEvent cameraNotifyEvent = new CameraNotifyEvent(camera, request.getRemoteHost(),
                 request.getHeader("authorization"), (String)request.getAttribute("userName"),
                 (String)request.getAttribute("password"));
         eventBus.fire(cameraNotifyEvent);
