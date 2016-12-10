@@ -33,6 +33,15 @@
         <filter-name>SensorAuthorizationFilter</filter-name>
         <url-pattern>/api/sensor/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>UserAuthorizationFilter</filter-name>
+        <filter-class>org.djr.camera.auth.UserAuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserAuthorizationFilter</filter-name>
+        <url-pattern>/api/user/auth/*</url-pattern>
+    </filter-mapping>
     <!--<filter>-->
         <!--<filter-name>RequestFilter</filter-name>-->
         <!--<filter-class>org.djr.camera.request.RequestFilter</filter-class>-->

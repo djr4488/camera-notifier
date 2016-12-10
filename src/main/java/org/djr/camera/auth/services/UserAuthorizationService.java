@@ -1,5 +1,6 @@
 package org.djr.camera.auth.services;
 
+import org.djr.camera.auth.UserAuthorizationFilterException;
 import org.djr.camera.entities.Token;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -26,10 +28,14 @@ public class UserAuthorizationService {
 
     public Token getToken(String token) {
         log.debug("getToken() looking up token:{}", token);
-        TypedQuery<Token> tokenQuery = em.createNamedQuery("findByToken", Token.class);
-        tokenQuery.setParameter("token", token);
-        tokenQuery.setParameter("expirationTime", DateTime.now().minusMinutes(30).toDate());
-        return tokenQuery.getSingleResult();
+        try {
+            TypedQuery<Token> tokenQuery = em.createNamedQuery("findByToken", Token.class);
+            tokenQuery.setParameter("token", token);
+            tokenQuery.setParameter("expirationTime", DateTime.now().minusMinutes(30).toDate());
+            return tokenQuery.getSingleResult();
+        } catch (NoResultException nrEx) {
+            return null;
+        }
     }
 
     @Schedule(minute = "*/30", hour = "*")

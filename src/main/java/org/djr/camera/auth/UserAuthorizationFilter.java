@@ -33,7 +33,7 @@ public class UserAuthorizationFilter implements Filter {
     throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpSession httpSession = httpServletRequest.getSession(false);
-        if (isValidToken(httpSession)) {
+        if (null != httpSession && isValidToken(httpSession)) {
             log.debug("doFilter() validated token");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
@@ -51,12 +51,8 @@ public class UserAuthorizationFilter implements Filter {
     private boolean isValidToken(HttpSession session) {
         boolean isValidToken = false;
         String token = (String)session.getAttribute("token");
-        try {
-            if (null != token && token.equals(userAuthorizationService.getToken(token).getToken())) {
-                isValidToken = true;
-            }
-        } catch (NoResultException nrEx) {
-            log.debug("isValidToken() no token found");
+        if (null != token && token.equals(userAuthorizationService.getToken(token).getToken())) {
+            isValidToken = true;
         }
         return isValidToken;
     }
