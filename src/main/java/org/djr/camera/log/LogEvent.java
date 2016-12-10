@@ -7,13 +7,15 @@ public class LogEvent {
     private LogType logType;
     private String logMessage;
     private Object[] parameters;
+    private Exception ex;
 
     public LogEvent() {
     }
 
-    public LogEvent(LogType logType, String logMessage, Object... parameters) {
+    public LogEvent(LogType logType, String logMessage, Exception ex, Object... parameters) {
         this.logType = logType;
         this.logMessage = logMessage;
+        this.ex = ex;
         this.parameters = parameters;
     }
 
@@ -39,5 +41,13 @@ public class LogEvent {
 
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
+    }
+
+    public Exception getEx() {
+        return ex;
+    }
+
+    public void setEx(Exception ex) {
+        this.ex = ex;
     }
 }

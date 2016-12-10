@@ -20,6 +20,6 @@ public class CameraApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class,
-                AddUserInitiator.class, SensorInitiator.class, CameraRestExceptionMapper.class));
+                AddUserInitiator.class, SensorInitiator.class));
     }
 }

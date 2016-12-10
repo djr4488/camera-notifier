@@ -23,7 +23,6 @@ public class UserController {
     private Logger log;
     @Inject
     private UserLookupService userLookupService;
-
     public void addUser(@Observes AddUserRequest request) {
         if (!isExistingUser(request.getUserName())) {
             User user = new User();
