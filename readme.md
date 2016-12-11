@@ -49,7 +49,7 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
 1. ~~Add database configuration to tomee.xml~~
 2. ~~Add entities for users, cameras~~
 3. Finish authorization endpoints, filters, services and utilities
-4. Add rest endpoints to allow for creating users, changing and recovering passwords.
+4. Add rest endpoints to allow for ~~creating users~~, changing and recovering passwords.
 5. Add front end so nobody has to call rest endpoints directly
 6. Consider making this a fatjar for easier deployment
 
