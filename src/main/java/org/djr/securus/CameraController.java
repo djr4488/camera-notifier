@@ -33,7 +33,7 @@ public class CameraController {
             log.error("handleCameraPostEvent() cameraPostEvent:{} failed to write to database with exception:{}", cameraPostEvent, ex);
         }
         User user = userLookupService.lookupUserByUserName(cameraPostEvent.getUserName());
-        if (isCameraEmailPostEventAllowed(cameraPostEvent.getCameraName(), cameraPostEvent.getUserName())) {
+        if (isCameraPostEventAllowed(cameraPostEvent.getCameraName(), cameraPostEvent.getUserName())) {
             emailService.sendFileAttachmentEmail(cameraPostEvent, user.getEmailAddress());
         }
         cameraPostEvent.getFile().delete();
@@ -41,24 +41,24 @@ public class CameraController {
 
     public void handleCameraNotifyEvent(@Observes CameraNotifyEvent cameraNotifyEvent) {
         log.debug("handleCameraNotifyEvent() cameraNotifyEvent:{}", cameraNotifyEvent);
-        if (isCameraEmailNotifyEventAllowed(cameraNotifyEvent.getCameraName(), cameraNotifyEvent.getUserName())) {
+        if (isCameraNotifyEventAllowed(cameraNotifyEvent.getCameraName(), cameraNotifyEvent.getUserName())) {
             emailService.sendNotifyEmail(cameraNotifyEvent.getCameraName());
         }
     }
 
-    public boolean isCameraEmailPostEventAllowed(String cameraName, String userName) {
+    public boolean isCameraPostEventAllowed(String cameraName, String userName) {
         boolean sendEmail = false;
         Camera camera = cameraEventService.lookupCameraByNameAndUser(cameraName, userName);
-        if (null == camera || camera.isCameraProcessEventHttpPost()) {
+        if (null == camera || camera.isProcessPostEvents()) {
             sendEmail = true;
         }
         return sendEmail;
     }
 
-    public boolean isCameraEmailNotifyEventAllowed(String cameraName, String userName) {
+    public boolean isCameraNotifyEventAllowed(String cameraName, String userName) {
         boolean sendEmail = false;
         Camera camera = cameraEventService.lookupCameraByNameAndUser(cameraName, userName);
-        if (null == camera || camera.isCameraProcessEventHttpNotify()) {
+        if (null == camera || camera.isProcessNotifyEvents()) {
             sendEmail = true;
         }
         return sendEmail;

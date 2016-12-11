@@ -3,55 +3,20 @@ package org.djr.securus.camera.rest.management;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-
 /**
- * Created by djr4488 on 12/10/16.
+ * Created by djr4488 on 12/11/16.
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.NONE)
-public class CameraAddRequest implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @XmlElement
+public class AddCameraEvent {
     private String cameraName;
-    @XmlElement
     private String cameraAdministrator;
-    @XmlElement
     private String cameraPassword;
-    @XmlElement
     private boolean processNotifyEvents;
-    @XmlElement
     private boolean sendNotifyEventAsEmail;
-    @XmlElement
     private boolean sendNotifyEventAsSms;
-    @XmlElement
     private boolean processPostEvents;
-    @XmlElement
     private String cameraTriggerUrl;
-    @XmlElement
     private String cameraZone;
-
-
-    public CameraAddRequest() {
-    }
-
-    public CameraAddRequest(String cameraName, String cameraAdministrator, String cameraPassword, boolean processNotifyEvents,
-                            boolean sendNotifyEventAsEmail, boolean sendNotifyEventAsSms, boolean processPostEvents,
-                            String cameraTriggerUrl, String cameraZone) {
-        this.cameraName = cameraName;
-        this.cameraAdministrator = cameraAdministrator;
-        this.cameraPassword = cameraPassword;
-        this.processNotifyEvents = processNotifyEvents;
-        this.sendNotifyEventAsEmail = sendNotifyEventAsEmail;
-        this.sendNotifyEventAsSms = sendNotifyEventAsSms;
-        this.processPostEvents = processPostEvents;
-        this.cameraTriggerUrl = cameraTriggerUrl;
-        this.cameraZone = cameraZone;
-    }
+    private Long userId;
 
     public String getCameraName() {
         return cameraName;
@@ -123,6 +88,14 @@ public class CameraAddRequest implements Serializable {
 
     public void setCameraZone(String cameraZone) {
         this.cameraZone = cameraZone;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override

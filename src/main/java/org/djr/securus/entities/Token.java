@@ -6,9 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,8 +31,8 @@ public class Token extends Identifiable {
     @Column(name = "token_expiration")
     @Temporal(TemporalType.TIMESTAMP)
     private Date tokenExpiration;
-    @OneToOne
-    @JoinColumn()
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public Token() {
@@ -41,10 +41,11 @@ public class Token extends Identifiable {
         this.setLastUpdatedAt(now.toDate());
     }
 
-    public Token(String token, Date tokenExpiration) {
+    public Token(String token, Date tokenExpiration, User user) {
         this();
         this.token = token;
         this.tokenExpiration = tokenExpiration;
+        this.user = user;
     }
 
     public String getToken() {
@@ -61,5 +62,13 @@ public class Token extends Identifiable {
 
     public void setTokenExpiration(Date tokenExpiration) {
         this.tokenExpiration = tokenExpiration;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

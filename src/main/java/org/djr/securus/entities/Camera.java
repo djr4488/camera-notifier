@@ -1,5 +1,7 @@
 package org.djr.securus.entities;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,17 +29,17 @@ public class Camera extends Identifiable {
     private String cameraName;
     // the following three fields used to trigger an http event on the securus to capture a video/audio stream
     @Column(name = "camera_url", nullable = true)
-    private String cameraUrl;
+    private String cameraTriggerUrl;
     @Column(name = "camera_username", nullable = true)
-    private String cameraUserName;
+    private String cameraAdministrator;
     @Column(name = "camera_password", nullable = true)
     private String cameraPassword;
     @Column(name = "camera_zone", nullable = true)
     private String cameraZone;
     @Column(name = "camera_process_event_http_post", nullable = false)
-    private boolean cameraProcessEventHttpPost;
+    private boolean processPostEvents;
     @Column(name = "camera_process_event_http_notify", nullable = false)
-    private boolean cameraProcessEventHttpNotify;
+    private boolean processNotifyEvents;
     //currently ignored as i don't yet support sms, but I think it would be kind of neat to do so in the future
     @Column(name = "send_notify_event_as_sms", nullable = false)
     private boolean sendNotifyEventAsSms;
@@ -49,6 +52,12 @@ public class Camera extends Identifiable {
     @JoinColumn(name = "camera_id", referencedColumnName = "id")
     private List<CameraEvent> cameraEvents;
 
+    public Camera() {
+        Date now = DateTime.now().toDate();
+        this.setCreatedAt(now);
+        this.setLastUpdatedAt(now);
+    }
+
     public String getCameraName() {
         return cameraName;
     }
@@ -57,20 +66,20 @@ public class Camera extends Identifiable {
         this.cameraName = cameraName;
     }
 
-    public String getCameraUrl() {
-        return cameraUrl;
+    public String getCameraTriggerUrl() {
+        return cameraTriggerUrl;
     }
 
-    public void setCameraUrl(String cameraUrl) {
-        this.cameraUrl = cameraUrl;
+    public void setCameraTriggerUrl(String cameraTriggerUrl) {
+        this.cameraTriggerUrl = cameraTriggerUrl;
     }
 
-    public String getCameraUserName() {
-        return cameraUserName;
+    public String getCameraAdministrator() {
+        return cameraAdministrator;
     }
 
-    public void setCameraUserName(String cameraUserName) {
-        this.cameraUserName = cameraUserName;
+    public void setCameraAdministrator(String cameraAdministrator) {
+        this.cameraAdministrator = cameraAdministrator;
     }
 
     public String getCameraPassword() {
@@ -89,20 +98,20 @@ public class Camera extends Identifiable {
         this.cameraZone = cameraZone;
     }
 
-    public boolean isCameraProcessEventHttpPost() {
-        return cameraProcessEventHttpPost;
+    public boolean isProcessPostEvents() {
+        return processPostEvents;
     }
 
-    public void setCameraProcessEventHttpPost(boolean cameraProcessEventHttpPost) {
-        this.cameraProcessEventHttpPost = cameraProcessEventHttpPost;
+    public void setProcessPostEvents(boolean processPostEvents) {
+        this.processPostEvents = processPostEvents;
     }
 
-    public boolean isCameraProcessEventHttpNotify() {
-        return cameraProcessEventHttpNotify;
+    public boolean isProcessNotifyEvents() {
+        return processNotifyEvents;
     }
 
-    public void setCameraProcessEventHttpNotify(boolean cameraProcessEventHttpNotify) {
-        this.cameraProcessEventHttpNotify = cameraProcessEventHttpNotify;
+    public void setProcessNotifyEvents(boolean processNotifyEvents) {
+        this.processNotifyEvents = processNotifyEvents;
     }
 
     public boolean isSendNotifyEventAsSms() {

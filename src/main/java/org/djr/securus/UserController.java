@@ -1,12 +1,13 @@
 package org.djr.securus;
 
+import org.djr.securus.camera.CameraEventService;
+import org.djr.securus.camera.rest.management.AddCameraEvent;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.entities.Token;
 import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.SystemException;
 import org.djr.securus.user.rest.add.AddUserRequest;
 import org.djr.securus.user.rest.add.UserExistsException;
-import org.djr.securus.user.rest.login.LoginRequest;
 import org.djr.securus.user.UserLookupService;
 import org.eclipse.persistence.internal.oxm.conversion.Base64;
 import org.joda.time.DateTime;
@@ -27,6 +28,9 @@ public class UserController {
     private Logger log;
     @Inject
     private UserLookupService userLookupService;
+    @Inject
+    private CameraEventService cameraEventService;
+
     public void addUser(@Observes AddUserRequest request) {
         if (!isExistingUser(request.getUserName())) {
             User user = new User();
@@ -61,9 +65,12 @@ public class UserController {
         return userLookupService.lookUserById(id);
     }
 
-    public Token generateToken() {
-        Token token = new Token(UUID.randomUUID().toString(), DateTime.now().toDate());
-        return token;
+    public void addCameraListener(@Observes AddCameraEvent addCameraEvent) {
+        log.debug("addCameraListener() addCameraEvent:{}", addCameraEvent);
+        User user = findUser(addCameraEvent.getUserId());
+        if (null != user) {
+            cameraEventService.addCamera(addCameraEvent, user);
+        }
     }
 
     private boolean isExistingUser(String userName) {

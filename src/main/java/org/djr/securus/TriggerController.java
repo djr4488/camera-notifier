@@ -46,7 +46,7 @@ public class TriggerController {
 
     private void doHttpTrigger(Camera camera) {
         boolean successful =
-                cameraHttpTriggerService.doCameraTrigger(camera.getCameraUserName(), camera.getCameraPassword(), camera.getCameraUrl());
+                cameraHttpTriggerService.doCameraTrigger(camera.getCameraAdministrator(), camera.getCameraPassword(), camera.getCameraTriggerUrl());
         if (!successful) {
             //TODO do throw exception handle it in exception mapper? or email user?
         }

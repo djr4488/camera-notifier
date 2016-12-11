@@ -46,7 +46,7 @@ public class LoginInitiator {
                 resp = Response.ok()
                         .entity(new LoginResponse("/api/user/management", null, null))
                         .build();
-                session.setAttribute("token", tokenService.generateToken().getToken());
+                session.setAttribute("token", tokenService.generateToken(user).getToken());
                 session.setAttribute("userId", user.getId());
             } else {
                 resp = Response.status(Response.Status.UNAUTHORIZED)

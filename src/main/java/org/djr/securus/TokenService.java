@@ -1,6 +1,7 @@
 package org.djr.securus;
 
 import org.djr.securus.entities.Token;
+import org.djr.securus.entities.User;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
@@ -23,8 +24,8 @@ public class TokenService {
     @PersistenceContext(unitName = "camera_notifier")
     private EntityManager em;
 
-    public Token generateToken() {
-        Token token = new Token(UUID.randomUUID().toString(), DateTime.now().toDate());
+    public Token generateToken(User user) {
+        Token token = new Token(UUID.randomUUID().toString(), DateTime.now().toDate(), user);
         em.persist(token);
         return token;
     }

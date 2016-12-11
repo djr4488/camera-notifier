@@ -201,6 +201,12 @@
             <version>2.9.6</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- logging -->
         <dependency>
