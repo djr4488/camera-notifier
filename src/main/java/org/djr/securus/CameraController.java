@@ -41,7 +41,7 @@ public class CameraController {
 
     public void handleCameraNotifyEvent(@Observes CameraNotifyEvent cameraNotifyEvent) {
         log.debug("handleCameraNotifyEvent() cameraNotifyEvent:{}", cameraNotifyEvent);
-        if (isCameraEmailPostEventAllowed(cameraNotifyEvent.getCameraName(), cameraNotifyEvent.getUserName())) {
+        if (isCameraEmailNotifyEventAllowed(cameraNotifyEvent.getCameraName(), cameraNotifyEvent.getUserName())) {
             emailService.sendNotifyEmail(cameraNotifyEvent.getCameraName());
         }
     }
