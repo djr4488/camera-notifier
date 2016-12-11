@@ -8,7 +8,7 @@
 
     <filter>
         <filter-name>CameraAuthorizationFilter</filter-name>
-        <filter-class>org.djr.camera.auth.CameraAuthorizationFilter</filter-class>
+        <filter-class>org.djr.securus.camera.rest.CameraAuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CameraAuthorizationFilter</filter-name>
@@ -17,7 +17,7 @@
 
     <filter>
         <filter-name>CameraPostFilter</filter-name>
-        <filter-class>org.djr.camera.rest.post.CameraPostFilter</filter-class>
+        <filter-class>org.djr.securus.camera.rest.post.CameraPostFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -27,7 +27,7 @@
 
     <filter>
         <filter-name>SensorAuthorizationFilter</filter-name>
-        <filter-class>org.djr.camera.auth.SensorAuthorizationFilter</filter-class>
+        <filter-class>org.djr.securus.camera.rest.TriggerAuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SensorAuthorizationFilter</filter-name>
@@ -36,7 +36,7 @@
 
     <filter>
         <filter-name>UserAuthorizationFilter</filter-name>
-        <filter-class>org.djr.camera.auth.UserAuthorizationFilter</filter-class>
+        <filter-class>org.djr.securus.user.rest.UserAuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UserAuthorizationFilter</filter-name>
@@ -44,11 +44,11 @@
     </filter-mapping>
     <!--<filter>-->
         <!--<filter-name>RequestFilter</filter-name>-->
-        <!--<filter-class>org.djr.camera.request.RequestFilter</filter-class>-->
+        <!--<filter-class>org.djr.securuss.request.RequestFilter</filter-class>-->
     <!--</filter>-->
 
     <!--<filter-mapping>-->
         <!--<filter-name>RequestFilter</filter-name>-->
-        <!--<url-pattern>/api/camera/*</url-pattern>-->
+        <!--<url-pattern>/api/securus/*</url-pattern>-->
     <!--</filter-mapping>-->
 </web-app>

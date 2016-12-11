@@ -3,11 +3,11 @@
     <persistence-unit name="camera_notifier">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>jdbc/camera_notifier</jta-data-source>
-        <class>org.djr.camera.entities.Camera</class>
-        <class>org.djr.camera.entities.CameraEvent</class>
-        <class>org.djr.camera.entities.Token</class>
-        <class>org.djr.camera.entities.User</class>
-        <class>org.djr.camera.entities.UserLogin</class>
+        <class>org.djr.securus.entities.Camera</class>
+        <class>org.djr.securus.entities.CameraEvent</class>
+        <class>org.djr.securus.entities.Token</class>
+        <class>org.djr.securus.entities.User</class>
+        <class>org.djr.securus.entities.UserLogin</class>
         <properties>
             <property
                     name="eclipselink.loggin.level.sql"
