@@ -12,7 +12,7 @@ This lead me to want to to continue further and see if I would be able to build 
 3. Implement a way to talk to zigbee and / or zwave devices and have them be able to trigger events on the cameras(depends on 1, is part of 2 probably)
 4. Implement mobile apps
 
-I will distribute this with the GPLv3 license.  I don't grant anybody the right to sell this software(without consulting me first), but anybody is welcome to distribute it freely with the source code attached.
+I will distribute this with the GPLv3 license.  If you redistributing this software and selling that redistribution I ask one thing first email me and let me know, beyond that, this software is free to use for anything and any project you want to do to build on top of it.
 
 ##Status
 Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch=master)](https://travis-ci.org/djr4488/camera-notifier)
