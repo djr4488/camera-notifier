@@ -1,5 +1,18 @@
 #Camera Notifier
-Purpose of this application is to provider owners of Sercomm cameras(tested with an old Xfinity home camera, iCamera-1000) a way to capture motion events and send email and other information through a more centralized means.  And personally, so I could send my notifications using my gmail account.
+This side project started out as a way for me to get my old home security cameras to send me email when the saw motion.  As I started digging through out the old iControl cameras I found other neat things I could possibly do;
+
+1. Administrate the camera remotely
+2. Use a PIR(passive IR) sensor on the camera
+3. Trigger the camera manually to capture video
+
+This lead me to want to to continue further and see if I would be able to build out my own open source security solution and run it off a Raspberry Pi. So some of hte goals of the project;
+
+1. Implement a centralized server using open source technologies(in progress)
+2. Implement a "hub" based on an Raspberry Pi(depends on 1)
+3. Implement a way to talk to zigbee and / or zwave devices and have them be able to trigger events on the cameras(depends on 1, is part of 2 probably)
+4. Implement mobile apps
+
+I will distribute this with the GPLv3 license.  I don't grant anybody the right to sell this software(without consulting me first), but anybody is welcome to distribute it freely with the source code attached.
 
 ##Status
 Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch=master)](https://travis-ci.org/djr4488/camera-notifier)
