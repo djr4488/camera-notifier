@@ -18,11 +18,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "cameras")
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = "findByCameraNameAndUserName",
-                    query = "select camera from Camera camera " +
-                            "where camera.cameraName = :cameraName and camera.user.userName = :userName")
-)
+                query = "select camera from Camera camera " +
+                        "where camera.cameraName = :cameraName and camera.user.userName = :userName"),
+        @NamedQuery(name = "deleteCamera",
+                query = "delete from Camera camera where camera.cameraName = :cameraName and camera.user = :user")
+})
 public class Camera extends Identifiable {
     private static final long serialVersionUID = 1L;
     @Column(name = "camera_name", nullable = false)
@@ -48,7 +50,7 @@ public class Camera extends Identifiable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "camera_id", referencedColumnName = "id")
     private List<CameraEvent> cameraEvents;
 

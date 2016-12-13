@@ -6,8 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * Created by djr4488 on 12/11/16.
  */
-public class AddCameraEvent {
-    private String cameraName;
+public class AddCameraEvent extends CameraManagementEvent {
     private String cameraAdministrator;
     private String cameraPassword;
     private boolean processNotifyEvents;
@@ -16,15 +15,6 @@ public class AddCameraEvent {
     private boolean processPostEvents;
     private String cameraTriggerUrl;
     private String cameraZone;
-    private Long userId;
-
-    public String getCameraName() {
-        return cameraName;
-    }
-
-    public void setCameraName(String cameraName) {
-        this.cameraName = cameraName;
-    }
 
     public String getCameraAdministrator() {
         return cameraAdministrator;
@@ -88,14 +78,6 @@ public class AddCameraEvent {
 
     public void setCameraZone(String cameraZone) {
         this.cameraZone = cameraZone;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     @Override

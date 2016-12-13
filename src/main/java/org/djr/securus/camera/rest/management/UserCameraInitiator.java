@@ -8,6 +8,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,7 +26,7 @@ public class UserCameraInitiator {
     @Inject
     private Logger log;
     @Inject
-    private Event<AddCameraEvent> eventBus;
+    private Event<CameraManagementEvent> eventBus;
 
     @POST
     @Path("add")
@@ -50,6 +51,23 @@ public class UserCameraInitiator {
         }
         addCameraEvent.setUserId((Long)request.getSession().getAttribute("userId"));
         eventBus.fire(addCameraEvent);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("delete")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response doCameraDelete(@Context HttpServletRequest request, CameraDeleteRequest cameraDeleteRequest) {
+        log.info("doCameraDelete() cameraDeleteRequest:{}", cameraDeleteRequest);
+        DeleteCameraEvent deleteCameraEvent = new DeleteCameraEvent();
+        try {
+            BeanUtils.copyProperties(deleteCameraEvent, cameraDeleteRequest);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.debug("doCameraDelete() doesn't support reflection to copy properties... bummer do it the hard way", e);
+            deleteCameraEvent.setCameraName(cameraDeleteRequest.getCameraName());
+        }
+        deleteCameraEvent.setUserId((Long)request.getSession().getAttribute("userId"));
         return Response.ok().build();
     }
 }

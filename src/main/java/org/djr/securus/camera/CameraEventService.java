@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CameraUtilities;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
+import org.djr.securus.camera.rest.management.DeleteCameraEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.CameraEvent;
 import org.djr.securus.entities.User;
@@ -75,5 +76,13 @@ public class CameraEventService {
         }
         camera.setUser(user);
         em.persist(camera);
+    }
+
+    public void deleteCamera(DeleteCameraEvent deleteCameraEvent, User user) {
+        log.debug("deleteCamera() deleteCameraEvent:{}", deleteCameraEvent);
+        TypedQuery<Camera> cameraQuery = em.createNamedQuery("deleteCamera", Camera.class);
+        cameraQuery.setParameter("cameraName", deleteCameraEvent.getCameraName());
+        cameraQuery.setParameter("user", user);
+        cameraQuery.executeUpdate();
     }
 }

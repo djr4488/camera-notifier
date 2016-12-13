@@ -2,22 +2,20 @@ package org.djr.securus;
 
 import org.djr.securus.camera.CameraEventService;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
+import org.djr.securus.camera.rest.management.DeleteCameraEvent;
 import org.djr.securus.user.PasswordUtils;
-import org.djr.securus.entities.Token;
 import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.SystemException;
 import org.djr.securus.user.rest.add.AddUserRequest;
 import org.djr.securus.user.rest.add.UserExistsException;
 import org.djr.securus.user.UserLookupService;
 import org.eclipse.persistence.internal.oxm.conversion.Base64;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import java.util.UUID;
 
 /**
  * Created by djr4488 on 12/10/16.
@@ -70,6 +68,14 @@ public class UserController {
         User user = findUser(addCameraEvent.getUserId());
         if (null != user) {
             cameraEventService.addCamera(addCameraEvent, user);
+        }
+    }
+
+    public void deleteCameraListerner(@Observes DeleteCameraEvent deleteCameraEvent) {
+        log.debug("deleteCameraListener() deleteCameraEvent:{}", deleteCameraEvent);
+        User user = findUser(deleteCameraEvent.getUserId());
+        if (null != user) {
+            cameraEventService.deleteCamera(deleteCameraEvent, user);
         }
     }
 
