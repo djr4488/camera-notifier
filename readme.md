@@ -42,8 +42,8 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
 
 * filters and endpoints and services
 * user management: ~~add~~, ~~login~~, change password
-* camera management: ~~add~~, delete, view captures, delete captures, ~~email captures~~, ~~notify of captures~~
-* trigger management: add, ~~trigger~~, record event
+* camera management: ~~add~~, ~~delete~~, view captures, delete captures, ~~email captures~~, ~~notify of captures~~
+* trigger management: add, ~~trigger~~, ~~record event~~
 
 All of the above depends on level of interest in the application, and how much free time I continue to have and whether ultimately, anybody wishes to donate time, talent, or the root of all evils money to help further this along.
 
