@@ -1,7 +1,7 @@
 #Camera Notifier
 This side project started out as a way for me to get my old home security cameras to send me email when they saw motion.  As I started digging through the old iControl cameras, I found other neat things I could possibly do;
 
-1. Administrate the camera remotely(see; [Sercomm API findings here](https://github.com/edent/Sercomm-API)
+1. Administrate the camera remotely(see; [Sercomm API findings here](https://github.com/edent/Sercomm-API))
 2. Use a PIR(passive IR) sensor on the camera
 3. Trigger the camera to capture video on events other than motion(like a door opening)
 
