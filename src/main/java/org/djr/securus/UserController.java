@@ -3,6 +3,7 @@ package org.djr.securus;
 import org.djr.securus.camera.CameraEventService;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
 import org.djr.securus.camera.rest.management.DeleteCameraEvent;
+import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.SystemException;
@@ -71,11 +72,19 @@ public class UserController {
         }
     }
 
-    public void deleteCameraListerner(@Observes DeleteCameraEvent deleteCameraEvent) {
+    public void deleteCameraListener(@Observes DeleteCameraEvent deleteCameraEvent) {
         log.debug("deleteCameraListener() deleteCameraEvent:{}", deleteCameraEvent);
         User user = findUser(deleteCameraEvent.getUserId());
         if (null != user) {
             cameraEventService.deleteCamera(deleteCameraEvent, user);
+        }
+    }
+
+    public void updateCameraListener(@Observes UpdateCameraEvent updateCameraEvent) {
+        log.debug("updateCameraListener() updateCameraEvent:{}", updateCameraEvent);
+        User user = findUser(updateCameraEvent.getUserId());
+        if (null != user) {
+            cameraEventService.updateCamera(updateCameraEvent, user);
         }
     }
 

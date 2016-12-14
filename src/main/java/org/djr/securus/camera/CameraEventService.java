@@ -5,6 +5,7 @@ import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CameraUtilities;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
 import org.djr.securus.camera.rest.management.DeleteCameraEvent;
+import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.CameraEvent;
 import org.djr.securus.entities.User;
@@ -84,5 +85,21 @@ public class CameraEventService {
         cameraQuery.setParameter("cameraName", deleteCameraEvent.getCameraName());
         cameraQuery.setParameter("user", user);
         cameraQuery.executeUpdate();
+    }
+
+    public void updateCamera(UpdateCameraEvent updateCameraEvent, User user) {
+        log.debug("updateCamera() updateCameraEvent:{}", updateCameraEvent);
+        Camera camera = lookupCameraByNameAndUser(updateCameraEvent.getCameraName(), user.getUserName());
+        camera.setCameraName(updateCameraEvent.getCameraName());
+        camera.setCameraAdministrator(updateCameraEvent.getCameraAdministrator());
+        camera.setCameraPassword(updateCameraEvent.getCameraPassword());
+        camera.setProcessNotifyEvents(updateCameraEvent.isProcessNotifyEvents());
+        camera.setSendNotifyEventAsEmail(updateCameraEvent.isSendNotifyEventAsEmail());
+        camera.setSendNotifyEventAsSms(updateCameraEvent.isSendNotifyEventAsSms());
+        camera.setProcessPostEvents(updateCameraEvent.isProcessPostEvents());
+        camera.setCameraTriggerUrl(updateCameraEvent.getCameraTriggerUrl());
+        camera.setCameraZone(updateCameraEvent.getCameraZone());
+        camera.setLastUpdatedAt(DateTime.now().toDate());
+        em.merge(camera);
     }
 }

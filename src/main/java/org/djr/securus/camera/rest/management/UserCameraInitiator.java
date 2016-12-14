@@ -68,6 +68,33 @@ public class UserCameraInitiator {
             deleteCameraEvent.setCameraName(cameraDeleteRequest.getCameraName());
         }
         deleteCameraEvent.setUserId((Long)request.getSession().getAttribute("userId"));
+        eventBus.fire(deleteCameraEvent);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("update")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response doCameraUpdate(@Context HttpServletRequest request, CameraUpdateRequest cameraUpdateRequest) {
+        log.info("doCameraUpdate() cameraUpdateRequest:{}", cameraUpdateRequest);
+        UpdateCameraEvent updateCameraEvent = new UpdateCameraEvent();
+        try {
+            BeanUtils.copyProperties(updateCameraEvent, cameraUpdateRequest);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.debug("doCameraUpdate() doesn't support reflection to copy properties... bummer do it the hard way", e);
+            updateCameraEvent.setCameraName(cameraUpdateRequest.getCameraName());
+            updateCameraEvent.setCameraAdministrator(cameraUpdateRequest.getCameraAdministrator());
+            updateCameraEvent.setCameraPassword(cameraUpdateRequest.getCameraPassword());
+            updateCameraEvent.setProcessNotifyEvents(cameraUpdateRequest.isProcessNotifyEvents());
+            updateCameraEvent.setSendNotifyEventAsEmail(cameraUpdateRequest.isSendNotifyEventAsEmail());
+            updateCameraEvent.setSendNotifyEventAsSms(cameraUpdateRequest.isSendNotifyEventAsSms());
+            updateCameraEvent.setProcessPostEvents(cameraUpdateRequest.isProcessPostEvents());
+            updateCameraEvent.setCameraTriggerUrl(cameraUpdateRequest.getCameraTriggerUrl());
+            updateCameraEvent.setCameraZone(cameraUpdateRequest.getCameraZone());
+        }
+        updateCameraEvent.setUserId((Long)request.getSession().getAttribute("userId"));
+        eventBus.fire(updateCameraEvent);
         return Response.ok().build();
     }
 }
