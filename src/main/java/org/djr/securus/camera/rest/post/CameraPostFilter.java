@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 
@@ -24,6 +25,7 @@ public class CameraPostFilter implements Filter {
      * {@inheritDoc}
      */
     @Override
+    @Timed
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         log.debug("doFilter() postFilter entered");

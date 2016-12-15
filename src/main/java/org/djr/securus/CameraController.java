@@ -1,5 +1,6 @@
 package org.djr.securus;
 
+import com.codahale.metrics.annotation.Timed;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.User;
 import org.djr.securus.messaging.email.EmailService;
@@ -25,6 +26,7 @@ public class CameraController {
     @Inject
     private UserLookupService userLookupService;
 
+    @Timed
     public void handleCameraPostEvent(@Observes CameraPostEvent cameraPostEvent) {
         log.debug("handleCameraPostEvent() cameraPostEvent:{}", cameraPostEvent);
         try {

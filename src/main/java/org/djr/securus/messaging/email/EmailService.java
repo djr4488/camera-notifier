@@ -1,5 +1,6 @@
 package org.djr.securus.messaging.email;
 
+import com.codahale.metrics.annotation.Timed;
 import com.djr4488.metrics.config.Configurator;
 import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CameraUtilities;
@@ -37,6 +38,7 @@ public class EmailService {
     @Resource(name = "mail")
     private Session session;
 
+    @Timed
     public void sendFileAttachmentEmail(CameraPostEvent cameraPostEvent, String destination) {
         log.debug("sendFileAttachmentEmail() cameraPostEvent:{}", cameraPostEvent);
         EmailConfig config = configurator.getConfiguration(EmailConfig.class);
@@ -64,6 +66,7 @@ public class EmailService {
         }
     }
 
+    @Timed
     public void sendNotifyEmail(String cameraName) {
         log.debug("sendNotifyEmail() cameraName:{}", cameraName);
         EmailConfig config = configurator.getConfiguration(EmailConfig.class);

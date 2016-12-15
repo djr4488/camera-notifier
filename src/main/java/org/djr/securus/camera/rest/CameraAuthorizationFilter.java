@@ -1,5 +1,6 @@
 package org.djr.securus.camera.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.servlet.*;

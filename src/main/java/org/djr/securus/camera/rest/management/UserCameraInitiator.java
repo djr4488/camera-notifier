@@ -1,5 +1,6 @@
 package org.djr.securus.camera.rest.management;
 
+import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 
@@ -32,6 +33,7 @@ public class UserCameraInitiator {
     @Path("add")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response doCameraAdd(@Context HttpServletRequest request, CameraAddRequest cameraAddRequest) {
         log.info("doCameraAdd() cameraAddRequest:{}", cameraAddRequest);
         AddCameraEvent addCameraEvent = new AddCameraEvent();
@@ -58,6 +60,7 @@ public class UserCameraInitiator {
     @Path("delete")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response doCameraDelete(@Context HttpServletRequest request, CameraDeleteRequest cameraDeleteRequest) {
         log.info("doCameraDelete() cameraDeleteRequest:{}", cameraDeleteRequest);
         DeleteCameraEvent deleteCameraEvent = new DeleteCameraEvent();
@@ -76,6 +79,7 @@ public class UserCameraInitiator {
     @Path("update")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response doCameraUpdate(@Context HttpServletRequest request, CameraUpdateRequest cameraUpdateRequest) {
         log.info("doCameraUpdate() cameraUpdateRequest:{}", cameraUpdateRequest);
         UpdateCameraEvent updateCameraEvent = new UpdateCameraEvent();

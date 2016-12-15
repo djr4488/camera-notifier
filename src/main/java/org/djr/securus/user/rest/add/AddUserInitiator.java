@@ -1,5 +1,6 @@
 package org.djr.securus.user.rest.add;
 
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,6 +30,7 @@ public class AddUserInitiator {
     @Path("add")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response addUser(@Context HttpServletRequest request, AddUserRequest addUserRequest) {
         log.info("addUser() addUserRequest:{}", addUserRequest);
         eventBus.fire(addUserRequest);

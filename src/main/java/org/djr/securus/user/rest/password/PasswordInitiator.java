@@ -1,5 +1,6 @@
 package org.djr.securus.user.rest.password;
 
+import com.codahale.metrics.annotation.Timed;
 import org.djr.securus.UserController;
 import org.djr.securus.user.UserException;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ public class PasswordInitiator {
     @Path("changePassword")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response doChangePassword(@Context HttpServletRequest request, ChangePasswordRequest changePasswordRequest) {
         log.info("doChangePassword() entered");
         Long userId = (Long)request.getSession().getAttribute("userId");

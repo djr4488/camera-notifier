@@ -1,5 +1,6 @@
 package org.djr.securus.user.rest.login;
 
+import com.codahale.metrics.annotation.Timed;
 import org.djr.securus.TokenService;
 import org.djr.securus.UserController;
 import org.djr.securus.entities.User;
@@ -34,6 +35,7 @@ public class LoginInitiator {
     @Path("login")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
     public Response doLogin(@Context HttpServletRequest request, LoginRequest loginRequest) {
         log.info("doLogin() entered loginRequest:{}", loginRequest);
         Response resp;
