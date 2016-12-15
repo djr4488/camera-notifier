@@ -7,6 +7,7 @@ import org.djr.securus.user.rest.add.AddUserInitiator;
 import org.djr.securus.camera.rest.trigger.TriggerInitiator;
 import org.djr.securus.camera.rest.management.UserCameraInitiator;
 import org.djr.securus.user.rest.login.LoginInitiator;
+import org.djr.securus.user.rest.password.PasswordInitiator;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -22,6 +23,7 @@ public class SecurusApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class,
-                AddUserInitiator.class, TriggerInitiator.class, LoginInitiator.class, UserCameraInitiator.class));
+                AddUserInitiator.class, TriggerInitiator.class, LoginInitiator.class, UserCameraInitiator.class,
+                PasswordInitiator.class));
     }
 }

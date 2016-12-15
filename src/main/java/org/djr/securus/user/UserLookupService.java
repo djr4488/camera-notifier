@@ -50,4 +50,10 @@ public class UserLookupService {
         UserLogin userLogin = new UserLogin(DateTime.now().toDate(), ipAddress, success, user, event);
         em.persist(userLogin);
     }
+
+    public void updateUser(User user, String ipAddress, boolean success, String event) {
+        em.merge(user);
+        UserLogin userLogin = new UserLogin(DateTime.now().toDate(), ipAddress, success, user, event);
+        em.persist(userLogin);
+    }
 }

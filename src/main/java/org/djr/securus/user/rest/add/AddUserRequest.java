@@ -21,6 +21,8 @@ public class AddUserRequest implements Serializable {
     @XmlElement
     private String password;
     @XmlElement
+    private String confirmPassword;
+    @XmlElement
     private String emailAddress;
 
     public AddUserRequest() {
@@ -46,6 +48,14 @@ public class AddUserRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getEmailAddress() {

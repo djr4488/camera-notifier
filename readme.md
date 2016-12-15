@@ -41,7 +41,7 @@ Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch
 7. Consider making this a fatjar for easier deployment
 
 * filters and endpoints and services
-* user management: ~~add~~, ~~login~~, change password
+* user management: ~~add~~, ~~login~~, ~~change password~~, reset password
 * camera management: ~~add~~, ~~delete~~, ~~email captures~~, ~~notify of captures~~
 * trigger management: ~~trigger~~, ~~record event~~
 
