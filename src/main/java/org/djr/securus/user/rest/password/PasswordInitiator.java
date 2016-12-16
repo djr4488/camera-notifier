@@ -44,4 +44,22 @@ public class PasswordInitiator {
             throw new UserException("Failed password change operation");
         }
     }
+
+    @POST
+    @Path("initForgotPassword")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
+    public Response doInitForgotPassword(InitForgotPasswordRequest initForgotPasswordRequest) {
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+    }
+
+    @POST
+    @Path("initForgotPassword")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
+    public Response doChangeForgottenPassword(ChangeForgottenPasswordRequest changeForgottenPasswordRequest) {
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+    }
 }
