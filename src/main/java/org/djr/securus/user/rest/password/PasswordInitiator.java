@@ -1,6 +1,8 @@
 package org.djr.securus.user.rest.password;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.djr.securus.UserController;
 import org.djr.securus.user.UserException;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationScoped
 @Path("user/auth")
+@Api("passwordManagement")
 public class PasswordInitiator {
     @Inject
     private Logger log;
@@ -32,6 +35,7 @@ public class PasswordInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doChangePassword", notes = "Change user password")
     public Response doChangePassword(@Context HttpServletRequest request, ChangePasswordRequest changePasswordRequest) {
         log.info("doChangePassword() entered");
         Long userId = (Long)request.getSession().getAttribute("userId");
@@ -50,6 +54,7 @@ public class PasswordInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doInitForgetPassword", notes = "Initiate change forgotten user password")
     public Response doInitForgotPassword(InitForgotPasswordRequest initForgotPasswordRequest) {
         return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }
@@ -59,6 +64,7 @@ public class PasswordInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doChangeForgottenPassword", notes = "Change forgotten password")
     public Response doChangeForgottenPassword(ChangeForgottenPasswordRequest changeForgottenPasswordRequest) {
         return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }

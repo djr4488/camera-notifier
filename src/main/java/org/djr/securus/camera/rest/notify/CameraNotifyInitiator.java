@@ -1,6 +1,8 @@
 package org.djr.securus.camera.rest.notify;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.djr.securus.CameraNotifyEvent;
 import org.slf4j.Logger;
 
@@ -23,6 +25,7 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationScoped
 @Path("/camera")
+@Api("cameraInterfacing")
 public class CameraNotifyInitiator {
     @Inject
     private Logger log;
@@ -31,9 +34,10 @@ public class CameraNotifyInitiator {
 
     @Path("/notify/{camera}")
     @POST
-    @Consumes({MediaType.TEXT_HTML, MediaType.APPLICATION_XHTML_XML, "image/webp", MediaType.APPLICATION_XML})
+    @Consumes({MediaType.TEXT_HTML, MediaType.APPLICATION_XHTML_XML, "image/webp", MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doCameraNotify", notes = " Notify event from camera")
     public Response doCameraNotify(@Context HttpServletRequest request, @PathParam(value = "camera") String camera) {
         log.info("doCameraNotify() entered securus:{}", camera);
         CameraNotifyEvent cameraNotifyEvent = new CameraNotifyEvent(camera, request.getRemoteHost(),

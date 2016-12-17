@@ -1,6 +1,8 @@
 package org.djr.securus.camera.rest.management;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 
@@ -23,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 @ApplicationScoped
 @Path("user/auth/camera")
+@Api("cameraManagement")
 public class UserCameraInitiator {
     @Inject
     private Logger log;
@@ -34,6 +37,7 @@ public class UserCameraInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doCameraAdd", notes = "Add a new camera")
     public Response doCameraAdd(@Context HttpServletRequest request, CameraAddRequest cameraAddRequest) {
         log.info("doCameraAdd() cameraAddRequest:{}", cameraAddRequest);
         AddCameraEvent addCameraEvent = new AddCameraEvent();
@@ -61,6 +65,7 @@ public class UserCameraInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doCameraDelete", notes = "Delete a camera.")
     public Response doCameraDelete(@Context HttpServletRequest request, CameraDeleteRequest cameraDeleteRequest) {
         log.info("doCameraDelete() cameraDeleteRequest:{}", cameraDeleteRequest);
         DeleteCameraEvent deleteCameraEvent = new DeleteCameraEvent();
@@ -80,6 +85,7 @@ public class UserCameraInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doCameraUpdate", notes = "Update camera management settings")
     public Response doCameraUpdate(@Context HttpServletRequest request, CameraUpdateRequest cameraUpdateRequest) {
         log.info("doCameraUpdate() cameraUpdateRequest:{}", cameraUpdateRequest);
         UpdateCameraEvent updateCameraEvent = new UpdateCameraEvent();

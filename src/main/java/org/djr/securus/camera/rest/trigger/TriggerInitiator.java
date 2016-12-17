@@ -1,6 +1,8 @@
 package org.djr.securus.camera.rest.trigger;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +22,7 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationScoped
 @Path("camera")
+@Api("cameraInterfacing")
 public class TriggerInitiator {
     @Inject
     private Logger log;
@@ -31,6 +34,7 @@ public class TriggerInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doTrigger", notes = "Handle camera trigger event")
     public Response doTrigger(@Context HttpServletRequest request, TriggerRequest triggerRequest) {
         log.info("doTrigger() entered triggerRequest:{}", triggerRequest);
         eventBus.fire(new TriggerEvent((Long)request.getAttribute("user_id"), triggerRequest.getZoneName()));

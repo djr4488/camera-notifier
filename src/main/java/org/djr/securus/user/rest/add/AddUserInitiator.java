@@ -1,6 +1,8 @@
 package org.djr.securus.user.rest.add;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +22,7 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationScoped
 @Path("user")
+@Api("user")
 public class AddUserInitiator {
     @Inject
     private Logger log;
@@ -31,7 +34,8 @@ public class AddUserInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
-    public Response addUser(@Context HttpServletRequest request, AddUserRequest addUserRequest) {
+    @ApiOperation(value = "doAddUser", notes = "Add a user")
+    public Response doAddUser(@Context HttpServletRequest request, AddUserRequest addUserRequest) {
         log.info("addUser() addUserRequest:{}", addUserRequest);
         eventBus.fire(addUserRequest);
         return Response.ok().build();

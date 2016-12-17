@@ -1,6 +1,8 @@
 package org.djr.securus.camera.rest.post;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.djr.securus.CameraPostEvent;
 import org.slf4j.Logger;
 
@@ -21,6 +23,7 @@ import java.io.File;
  */
 @ApplicationScoped
 @Path("/camera")
+@Api("cameraInterfacing")
 public class CameraPostInitiator {
     @Inject
     private Logger log;
@@ -31,6 +34,7 @@ public class CameraPostInitiator {
     @POST
     @Consumes({"*/*", "video/x-msvideo"})
     @Timed
+    @ApiOperation(value = "doCameraPost", notes = "Handle camera post event")
     public Response doCameraPost(@Context HttpServletRequest request, @PathParam(value="camera") String camera) {
         log.debug("doCameraPost() entered securus:{}", camera);
         CameraPostEvent cameraPostEvent = new CameraPostEvent(camera, request.getRemoteHost(),

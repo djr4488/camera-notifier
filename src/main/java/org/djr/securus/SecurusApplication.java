@@ -1,6 +1,7 @@
 package org.djr.securus;
 
 import com.djr4488.metrics.rest.MetricsApi;
+import io.swagger.jaxrs.listing.ApiListingResource;
 import org.djr.securus.camera.rest.notify.CameraNotifyInitiator;
 import org.djr.securus.camera.rest.post.CameraPostInitiator;
 import org.djr.securus.user.rest.add.AddUserInitiator;
@@ -24,6 +25,6 @@ public class SecurusApplication extends Application {
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(MetricsApi.class, CameraNotifyInitiator.class, CameraPostInitiator.class,
                 AddUserInitiator.class, TriggerInitiator.class, LoginInitiator.class, UserCameraInitiator.class,
-                PasswordInitiator.class));
+                PasswordInitiator.class, ApiListingResource.class));
     }
 }

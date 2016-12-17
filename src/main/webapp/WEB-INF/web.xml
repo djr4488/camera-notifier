@@ -1,10 +1,33 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app version="3.1"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         metadata-complete="false"
-         version="2.5">
+         xsi:schemaLocation="
+          http://xmlns.jcp.org/xml/ns/javaee
+          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
-    <display-name>Camera Notifier</display-name>
+    <display-name>Securus</display-name>
+
+    <servlet>
+        <servlet-name>swagger</servlet-name>
+        <servlet-class>io.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
+        <init-param>
+            <param-name>api.version</param-name>
+            <param-value>1.0.0-SNAPSHOT</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.api.basepath</param-name>
+            <param-value>http://localhost:8080/api</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.api.title</param-name>
+            <param-value>Securus</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.scanner.id</param-name>
+            <param-value>swagger.scanner</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <filter>
         <filter-name>CameraAuthorizationFilter</filter-name>

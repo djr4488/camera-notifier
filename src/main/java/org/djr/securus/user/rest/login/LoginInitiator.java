@@ -1,6 +1,8 @@
 package org.djr.securus.user.rest.login;
 
 import com.codahale.metrics.annotation.Timed;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.djr.securus.TokenService;
 import org.djr.securus.UserController;
 import org.djr.securus.entities.User;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 @Path("user")
+@Api("login")
 public class LoginInitiator {
     @Inject
     private Logger log;
@@ -36,6 +39,7 @@ public class LoginInitiator {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
+    @ApiOperation(value = "doLogin", notes = "Login user")
     public Response doLogin(@Context HttpServletRequest request, LoginRequest loginRequest) {
         log.info("doLogin() entered loginRequest:{}", loginRequest);
         Response resp;
