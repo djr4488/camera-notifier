@@ -4,6 +4,9 @@ import org.djr.securus.camera.CameraEventService;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
 import org.djr.securus.camera.rest.management.DeleteCameraEvent;
 import org.djr.securus.camera.rest.management.UpdateCameraEvent;
+import org.djr.securus.entities.UserLogin;
+import org.djr.securus.exceptions.BusinessException;
+import org.djr.securus.messaging.email.EmailService;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.SystemException;
@@ -12,6 +15,8 @@ import org.djr.securus.user.UserPasswordMismatchException;
 import org.djr.securus.user.rest.add.AddUserRequest;
 import org.djr.securus.user.rest.add.UserExistsException;
 import org.djr.securus.user.UserLookupService;
+import org.djr.securus.user.rest.password.ChangeForgottenPasswordRequest;
+import org.djr.securus.user.rest.password.InitForgotPasswordRequest;
 import org.eclipse.persistence.internal.oxm.conversion.Base64;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -32,6 +37,8 @@ public class UserController {
     private UserLookupService userLookupService;
     @Inject
     private CameraEventService cameraEventService;
+    @Inject
+    private EmailService emailService;
 
     public void addUser(@Observes AddUserRequest request) {
         passwordMatchCheck(request.getPassword(), request.getConfirmPassword());
@@ -75,6 +82,42 @@ public class UserController {
             }
         }
         return changedPassword;
+    }
+
+    public void passwordRecovery(InitForgotPasswordRequest request, String ipAddress) {
+        try {
+            log.debug("passwordRecoveryGenerator() request:{}", request);
+            User user = userLookupService.lookupUserByUserName(request.getUserName());
+            String passwordRecoveryString = PasswordUtils.generateRandomPassword(10);
+            user.setPasswordRecovery(passwordRecoveryString);
+            user.setLastUpdatedAt(DateTime.now().toDate());
+            StringBuilder sb = new StringBuilder("Below is your password change key.  If you didn't request changing your password");
+            sb.append(" then you may ignore this email.  \n\n").append(passwordRecoveryString);
+            emailService.sendEmail("Password Change Request", user.getEmailAddress(), sb.toString());
+            userLookupService.updateUser(user, ipAddress, false, "Init Password Recovery");
+        } catch (BusinessException ex) {
+            log.debug("Failed password recovery");
+            throw ex;
+        }
+    }
+
+    public void recoverPassword(ChangeForgottenPasswordRequest request, String ipAddress) {
+        try {
+            log.debug("recoverPassword() ipAddress:{}, userName:{}", ipAddress, request.getUserName());
+            User user = userLookupService.lookupUserByUserName(request.getUserName());
+            if (isRecoveryKeyValid(request.getPasswordRecoveryToken(), user)) {
+                passwordMatchCheck(request.getNewPassword(), request.getConfirmPassword());
+                user.setLastUpdatedAt(DateTime.now().toDate());
+                setUserPassword(request.getNewPassword(), user);
+                StringBuilder sb = new StringBuilder("Your password was changed.\n\n  If this wasn't you, I'd change passwords on both your");
+                sb.append(" email and home security.");
+                emailService.sendEmail("Home Security Password Changed", user.getEmailAddress(), sb.toString());
+                user.setPasswordRecovery(null);
+                userLookupService.updateUser(user, ipAddress, true, "Password Recovery");
+            }
+        } catch (Exception ex) {
+            log.error("recoverPassword() ", ex);
+        }
     }
 
     public User findUser(Long id) {
@@ -134,5 +177,13 @@ public class UserController {
         String base64Hash = new String(Base64.base64Encode(PasswordUtils.hash(password, nextSalt)));
         user.setPassword(base64Hash);
         user.setSalt(new String(Base64.base64Encode(nextSalt)));
+    }
+
+    private boolean isRecoveryKeyValid(String recoveryKey, User user) {
+        boolean validRecoveryKey = false;
+        if (null != user && null != user.getPasswordRecovery() && user.getPasswordRecovery().equals(recoveryKey)) {
+            validRecoveryKey = true;
+        }
+        return validRecoveryKey;
     }
 }

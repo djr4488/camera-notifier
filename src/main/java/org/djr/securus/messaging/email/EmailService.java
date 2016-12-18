@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.djr4488.metrics.config.Configurator;
 import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CameraUtilities;
+import org.djr.securus.exceptions.BusinessException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
@@ -72,20 +73,28 @@ public class EmailService {
         EmailConfig config = configurator.getConfiguration(EmailConfig.class);
         String to = config.destination();
         String from = config.from();
+        sendEmail("Motion detected by camera " + cameraName, to, "Camera " + cameraName + " has detected motion.");
+    }
+
+    @Timed
+    public void sendEmail(String subject, String destination, String body) {
+        log.debug("sendEmail() subject:{}, destination:{}, body:{}", subject, destination, body);
+        EmailConfig config = configurator.getConfiguration(EmailConfig.class);
+        String from = config.from();
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
+                    InternetAddress.parse(destination));
             Multipart multipart = new MimeMultipart();
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Camera has seen motion;");
+            messageBodyPart.setText(body);
             multipart.addBodyPart(messageBodyPart);
-            message.setSubject("Motion detected by camera " + cameraName);
+            message.setSubject(subject);
             message.setContent(multipart);
             Transport.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new BusinessException("Failed sending email", e);
         }
     }
 

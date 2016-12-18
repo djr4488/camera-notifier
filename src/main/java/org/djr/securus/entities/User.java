@@ -17,15 +17,16 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users",
-        indexes = { @Index(name="id_index", columnList = "id"),
-                    @Index(name = "user_name_index", unique = true, columnList = "userName")})
+        indexes = { @Index(name="id_index", unique = true, columnList = "id"),
+                    @Index(name = "user_name_index", unique = true, columnList = "userName"),
+                    @Index(name = "password_recovery_index", columnList = "password_recovery")})
 @NamedQueries(
         {@NamedQuery(name = "findByUserName",
                      query = "select user from User user where user.userName = :userName")}
 )
 public class User extends Identifiable {
     private static final long serialVersionUID = 1L;
-    @Column(name = "user_name", nullable = false, unique = true)
+    @Column(name = "user_name", nullable = false, unique = true, updatable = false)
     private String userName;
     @Column(name = "password", nullable = false)
     private String password;
@@ -33,6 +34,8 @@ public class User extends Identifiable {
     private String salt;
     @Column(name = "email_address")
     private String emailAddress;
+    @Column(name = "password_recovery")
+    private String passwordRecovery;
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Camera> cameras;
@@ -76,6 +79,14 @@ public class User extends Identifiable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getPasswordRecovery() {
+        return passwordRecovery;
+    }
+
+    public void setPasswordRecovery(String passwordRecovery) {
+        this.passwordRecovery = passwordRecovery;
     }
 
     public List<Camera> getCameras() {

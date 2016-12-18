@@ -17,27 +17,38 @@ import java.io.Serializable;
 public class ChangeForgottenPasswordRequest implements Serializable {
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private String forgotPasswordToken;
+    private String userName;
+    @XmlElement
+    private String passwordRecoveryToken;
     @XmlElement
     private String newPassword;
     @XmlElement
-    private String oldPassword;
+    private String confirmPassword;
 
     public ChangeForgottenPasswordRequest() {
     }
 
-    public ChangeForgottenPasswordRequest(String forgotPasswordToken, String newPassword, String oldPassword) {
-        this.forgotPasswordToken = forgotPasswordToken;
+    public ChangeForgottenPasswordRequest(String userName, String passwordRecoveryToken, String newPassword, String confirmPassword) {
+        this.userName = userName;
+        this.passwordRecoveryToken = passwordRecoveryToken;
         this.newPassword = newPassword;
-        this.oldPassword = oldPassword;
+        this.confirmPassword = confirmPassword;
     }
 
-    public String getForgotPasswordToken() {
-        return forgotPasswordToken;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setForgotPasswordToken(String forgotPasswordToken) {
-        this.forgotPasswordToken = forgotPasswordToken;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPasswordRecoveryToken() {
+        return passwordRecoveryToken;
+    }
+
+    public void setPasswordRecoveryToken(String passwordRecoveryToken) {
+        this.passwordRecoveryToken = passwordRecoveryToken;
     }
 
     public String getNewPassword() {
@@ -48,12 +59,12 @@ public class ChangeForgottenPasswordRequest implements Serializable {
         this.newPassword = newPassword;
     }
 
-    public String getOldPassword() {
-        return oldPassword;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     @Override

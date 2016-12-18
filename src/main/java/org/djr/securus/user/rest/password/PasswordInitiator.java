@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
  * Created by djr4488 on 12/14/16.
  */
 @ApplicationScoped
-@Path("user/auth")
+@Path("user")
 @Api("passwordManagement")
 public class PasswordInitiator {
     @Inject
@@ -31,7 +31,7 @@ public class PasswordInitiator {
     private UserController userController;
 
     @POST
-    @Path("changePassword")
+    @Path("auth/changePassword")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
@@ -55,8 +55,9 @@ public class PasswordInitiator {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
     @ApiOperation(value = "doInitForgetPassword", notes = "Initiate change forgotten user password")
-    public Response doInitForgotPassword(InitForgotPasswordRequest initForgotPasswordRequest) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+    public Response doInitForgotPassword(@Context HttpServletRequest request, InitForgotPasswordRequest initForgotPasswordRequest) {
+        userController.passwordRecovery(initForgotPasswordRequest, request.getRemoteAddr());
+        return Response.ok().entity(new InitPasswordRecoveryResponse("doPasswordRecovery", null, null)).build();
     }
 
     @POST
@@ -65,7 +66,8 @@ public class PasswordInitiator {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Timed
     @ApiOperation(value = "doChangeForgottenPassword", notes = "Change forgotten password")
-    public Response doChangeForgottenPassword(ChangeForgottenPasswordRequest changeForgottenPasswordRequest) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+    public Response doChangeForgottenPassword(@Context HttpServletRequest request, ChangeForgottenPasswordRequest changeForgottenPasswordRequest) {
+        userController.recoverPassword(changeForgottenPasswordRequest, request.getRemoteAddr());
+        return Response.ok().entity(new ChangeForgottenPasswordResponse("doLogin", null, null)).build();
     }
 }
