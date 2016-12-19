@@ -28,9 +28,10 @@ public class AddUserRequest implements Serializable {
     public AddUserRequest() {
     }
 
-    public AddUserRequest(String userName, String password, String emailAddress) {
+    public AddUserRequest(String userName, String password, String confirmPassword, String emailAddress) {
         this.userName = userName;
         this.password = password;
+        this.confirmPassword = confirmPassword;
         this.emailAddress = emailAddress;
     }
 

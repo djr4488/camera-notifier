@@ -88,16 +88,18 @@ public class UserController {
         try {
             log.debug("passwordRecoveryGenerator() request:{}", request);
             User user = userLookupService.lookupUserByUserName(request.getUserName());
-            String passwordRecoveryString = PasswordUtils.generateRandomPassword(10);
-            user.setPasswordRecovery(passwordRecoveryString);
-            user.setLastUpdatedAt(DateTime.now().toDate());
-            StringBuilder sb = new StringBuilder("Below is your password change key.  If you didn't request changing your password");
-            sb.append(" then you may ignore this email.  \n\n").append(passwordRecoveryString);
-            emailService.sendEmail("Password Change Request", user.getEmailAddress(), sb.toString());
-            userLookupService.updateUser(user, ipAddress, false, "Init Password Recovery");
-        } catch (BusinessException ex) {
-            log.debug("Failed password recovery");
-            throw ex;
+            if (null != user) {
+                String passwordRecoveryString = PasswordUtils.generateRandomPassword(10);
+                user.setPasswordRecovery(passwordRecoveryString);
+                user.setLastUpdatedAt(DateTime.now().toDate());
+                StringBuilder sb = new StringBuilder("Below is your password change key.  If you didn't request changing your password");
+                sb.append(" then you may ignore this email.  \n\n").append(passwordRecoveryString);
+                emailService.sendEmail("Password Change Request", user.getEmailAddress(), sb.toString());
+                userLookupService.updateUser(user, ipAddress, true, "Init Password Recovery");
+            }
+        } catch (Exception ex) {
+            log.error("Failed password recovery", ex);
+            throw new BusinessException(ex);
         }
     }
 
@@ -105,7 +107,7 @@ public class UserController {
         try {
             log.debug("recoverPassword() ipAddress:{}, userName:{}", ipAddress, request.getUserName());
             User user = userLookupService.lookupUserByUserName(request.getUserName());
-            if (isRecoveryKeyValid(request.getPasswordRecoveryToken(), user)) {
+            if (null != user && isRecoveryKeyValid(request.getPasswordRecoveryToken(), user)) {
                 passwordMatchCheck(request.getNewPassword(), request.getConfirmPassword());
                 user.setLastUpdatedAt(DateTime.now().toDate());
                 setUserPassword(request.getNewPassword(), user);
@@ -114,9 +116,12 @@ public class UserController {
                 emailService.sendEmail("Home Security Password Changed", user.getEmailAddress(), sb.toString());
                 user.setPasswordRecovery(null);
                 userLookupService.updateUser(user, ipAddress, true, "Password Recovery");
+            } else {
+                throw new BusinessException("User not found or invalid recovery token");
             }
         } catch (Exception ex) {
             log.error("recoverPassword() ", ex);
+            throw new BusinessException(ex);
         }
     }
 

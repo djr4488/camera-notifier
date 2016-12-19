@@ -5,3 +5,5 @@ jdk:
 install:
 - mvn -N io.takari:maven:wrapper
 - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+after_success:
+  - mvn clean test cobertura:cobertura jacoco:report coveralls:report

@@ -312,12 +312,6 @@
             <version>2.2.6</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.johnzon</groupId>
-            <artifactId>apache-johnzon</artifactId>
-            <version>0.9.5</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
     <!--
     This section allows you to configure where to publish libraries for sharing.
