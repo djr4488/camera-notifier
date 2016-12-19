@@ -18,7 +18,8 @@ I will distribute this with the GPLv3 license.  If you're redistributing this so
 I'm usually updating or adding to this on a nightly basis.  Usually during the week I add one feature/endpoint to accomplish something useful.  I won't always note in the readme what was added, but github's commit comments will usually serve to indicate what is new/changed.
 
 ##Status
-Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch=master)](https://travis-ci.org/djr4488/camera-notifier)
+* Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch=master)](https://travis-ci.org/djr4488/camera-notifier)
+* * Coverage: [![Coverage Status](https://coveralls.io/repos/github/djr4488/camera-notifier/badge.svg?branch=master)](https://coveralls.io/github/djr4488/camera-notifier?branch=master)  [![codecov](https://codecov.io/gh/djr4488/camera-notifier/branch/master/graph/badge.svg)](https://codecov.io/gh/djr4488/camera-notifier)
 
 ## How to use this software
 1. You will need administrator access to your camera
