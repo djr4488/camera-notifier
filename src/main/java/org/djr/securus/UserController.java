@@ -107,7 +107,7 @@ public class UserController {
         try {
             log.debug("recoverPassword() ipAddress:{}, userName:{}", ipAddress, request.getUserName());
             User user = userLookupService.lookupUserByUserName(request.getUserName());
-            if (null != user && isRecoveryKeyValid(request.getPasswordRecoveryToken(), user)) {
+            if (isRecoveryKeyValid(request.getPasswordRecoveryToken(), user)) {
                 passwordMatchCheck(request.getNewPassword(), request.getConfirmPassword());
                 user.setLastUpdatedAt(DateTime.now().toDate());
                 setUserPassword(request.getNewPassword(), user);

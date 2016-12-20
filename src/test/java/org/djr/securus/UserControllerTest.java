@@ -9,6 +9,7 @@ import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.cdi.logs.LoggerProducer;
 import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.BusinessException;
+import org.djr.securus.exceptions.SystemException;
 import org.djr.securus.messaging.email.EmailService;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.user.UserException;
@@ -28,6 +29,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -109,11 +111,45 @@ public class UserControllerTest extends TestCase {
     //  and: has email address test@test.com
     //  and: a prior user exists with username
     // when: adding a new user
-    // then: expect no exceptions to occur
+    // then: expect UserExistsException
     @Test(expected = UserExistsException.class)
     public void testAddUserExistingUser() {
         AddUserRequest request = new AddUserRequest("test", "test", "test", "test@test.com");
         when(userLookupService.lookupUserByUserName("test")).thenReturn(new User());
+        userController.addUser(request);
+        verify(userLookupService, never()).persistNewUser(any(User.class));
+    }
+
+    //given: AddUserRequest
+    //  and: has username test
+    //  and: has password test
+    //  and: has confirmPassword test
+    //  and: has email address test@test.com
+    //  and: a prior user exists with username
+    //  and: a database transaction rolled back exception happens
+    // when: adding a new user
+    // then: expect SystemException
+    @Test(expected = SystemException.class)
+    public void testAddUserWhenEJBTransactionRolledbackException() {
+        AddUserRequest request = new AddUserRequest("test", "test", "test", "test@test.com");
+        when(userLookupService.lookupUserByUserName("test")).thenThrow(new EJBTransactionRolledbackException());
+        userController.addUser(request);
+        verify(userLookupService, never()).persistNewUser(any(User.class));
+    }
+
+    //given: AddUserRequest
+    //  and: has username test
+    //  and: has password test
+    //  and: has confirmPassword test
+    //  and: has email address test@test.com
+    //  and: a prior user exists with username
+    //  and: unexpected exception is caught
+    // when: adding a new user
+    // then: expect SystemException
+    @Test(expected = SystemException.class)
+    public void testAddUserWhenException() {
+        AddUserRequest request = new AddUserRequest("test", "test", "test", "test@test.com");
+        when(userLookupService.lookupUserByUserName("test")).thenThrow(new SystemException());
         userController.addUser(request);
         verify(userLookupService, never()).persistNewUser(any(User.class));
     }
@@ -294,6 +330,23 @@ public class UserControllerTest extends TestCase {
     }
 
     //given: change forgotten password request
+    //  and: user is found
+    //  and: new password matching confirm password
+    //  and: user has no recovery token
+    // when: recovering password
+    // then: business exception
+    @Test(expected = BusinessException.class)
+    public void testRecoverPasswordUserNoRecoveryToken() {
+        ChangeForgottenPasswordRequest request = new ChangeForgottenPasswordRequest("test", "1234", "test1", "test1");
+        User user = getUser();
+        user.setPasswordRecovery(null);
+        when(userLookupService.lookupUserByUserName("test")).thenReturn(user);
+        userController.recoverPassword(request, "0.0.0.0");
+        verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
+        verify(userLookupService, never()).updateUser(user, "0.0.0.0", true, "Password Recovery");
+    }
+
+    //given: change forgotten password request
     //  and: user is not found
     //  and: new password matching confirm password
     //  and: recovery token provided does match recovery token on user
@@ -364,16 +417,7 @@ public class UserControllerTest extends TestCase {
     }
 
     private User getUser() {
-        byte[] userSaltByteArray = PasswordUtils.getNextSalt();
-        String userSalt = Base64.encodeBase64String(userSaltByteArray);
-        String userPassword = Base64.encodeBase64String(PasswordUtils.hash("test".toCharArray(), userSaltByteArray));
-        User user = new User();
-        user.setUserName("test");
-        user.setPassword(userPassword);
-        user.setSalt(userSalt);
-        user.setEmailAddress("test@test.com");
-        user.setPasswordRecovery("123");
-        return user;
+        return CommonTestEntityUtils.getUser();
     }
 
     private AddCameraEvent getAddCameraEvent() {
