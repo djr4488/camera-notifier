@@ -19,6 +19,9 @@ import org.mockito.MockitoAnnotations;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,5 +63,56 @@ public class TriggerControllerTest extends TestCase {
         verify(cameraHttpTriggerService, times(1)).doCameraTrigger("admin", "password", "triggerUrl");
     }
 
+    //given: zone name
+    //  and: user id
+    //  and: user has no cameras
+    // when: handling trigger event
+    // then: expect no camera notified
+    @Test
+    public void testHandleSensorEventNoCamerasForUser() {
+        TriggerEvent triggerEvent = CommonTestEntityUtils.getTriggerEvent();
+        User user = CommonTestEntityUtils.getUser();
+        user.setCameras(new ArrayList<>());
+        when(userLookupService.lookUserById(1L)).thenReturn(user);
+        triggerController.handleSensorEvent(triggerEvent);
+        verify(userLookupService, times(1)).lookUserById(1L);
+        verify(cameraHttpTriggerService, never()).doCameraTrigger("admin", "password", "triggerUrl");
+    }
+
+    //given: zone name
+    //  and: user id
+    //  and: user has cameras
+    //  and: no camera matches zone name
+    // when: handling trigger event
+    // then: expect no camera notified
+    @Test
+    public void testHandleSensorEventNoCameraMatchesZoneName() {
+        TriggerEvent triggerEvent = CommonTestEntityUtils.getTriggerEvent();
+        triggerEvent.setZoneName("zoneName3");
+        User user = CommonTestEntityUtils.getUser();
+        user.setCameras(CommonTestEntityUtils.getCameraList());
+        when(userLookupService.lookUserById(1L)).thenReturn(user);
+        when(cameraHttpTriggerService.doCameraTrigger("admin", "password", "triggerUrl")).thenReturn(true);
+        triggerController.handleSensorEvent(triggerEvent);
+        verify(userLookupService, times(1)).lookUserById(1L);
+        verify(cameraHttpTriggerService, never()).doCameraTrigger("admin", "password", "triggerUrl");
+    }
+
+    //given: zone name
+    //  and: user id
+    // when: handling sensor event
+    // then: expect no exceptions
+    //  and: operation fails
+    @Test
+    public void testHandleSensorEventCameraFoundTriggerFails() {
+        TriggerEvent triggerEvent = CommonTestEntityUtils.getTriggerEvent();
+        User user = CommonTestEntityUtils.getUser();
+        user.setCameras(CommonTestEntityUtils.getCameraList());
+        when(userLookupService.lookUserById(1L)).thenReturn(user);
+        when(cameraHttpTriggerService.doCameraTrigger("admin", "password", "triggerUrl")).thenReturn(false);
+        triggerController.handleSensorEvent(triggerEvent);
+        verify(userLookupService, times(1)).lookUserById(1L);
+        verify(cameraHttpTriggerService, times(1)).doCameraTrigger("admin", "password", "triggerUrl");
+    }
 
 }

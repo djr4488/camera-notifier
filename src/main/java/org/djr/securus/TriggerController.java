@@ -49,6 +49,7 @@ public class TriggerController {
                 cameraHttpTriggerService.doCameraTrigger(camera.getCameraAdministrator(), camera.getCameraPassword(), camera.getCameraTriggerUrl());
         if (!successful) {
             //TODO do throw exception handle it in exception mapper? or email user?
+            log.debug("doHttpTrigger() failed to trigger camera:{} at url:{}",camera.getCameraName(), camera.getCameraTriggerUrl());
         }
     }
 }
