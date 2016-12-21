@@ -5,6 +5,7 @@ import org.djr.securus.camera.rest.trigger.TriggerEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.User;
 import org.djr.securus.user.PasswordUtils;
+import org.djr.securus.user.rest.add.AddUserRequest;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,5 +64,10 @@ public class CommonTestEntityUtils {
     public static CameraNotifyEvent getCameraNotifyEvent() {
         CameraNotifyEvent cameraNotifyEvent = new CameraNotifyEvent("name", "0.0.0.0", "auth", "user", "password");
         return cameraNotifyEvent;
+    }
+
+    public static AddUserRequest getAddUserRequest() {
+        AddUserRequest addUserRequest = new AddUserRequest("user", "password", "password", "test@test.com");
+        return addUserRequest;
     }
 }
