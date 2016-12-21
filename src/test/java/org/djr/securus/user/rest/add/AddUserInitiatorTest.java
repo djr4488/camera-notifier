@@ -21,6 +21,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -50,17 +51,19 @@ public class AddUserInitiatorTest extends TestCase {
         MockitoAnnotations.initMocks(this);
     }
 
+    //test when user successfully is created
     @Test
     public void testAddUser() {
         AddUserRequest request = CommonTestEntityUtils.getAddUserRequest();
         HttpServletRequest httpReq = mock(HttpServletRequest.class);
         when(userLookupService.lookupUserByUserName("user")).thenReturn(null);
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-        addUserInitiator.doAddUser(httpReq, request);
+        Response resp = addUserInitiator.doAddUser(httpReq, request);
         verify(userLookupService, times(1)).persistNewUser(userArgumentCaptor.capture());
         User user = userArgumentCaptor.getValue();
         assertNotNull(user);
         assertEquals("user", user.getUserName());
         assertEquals("test@test.com", user.getEmailAddress());
+        assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
     }
 }
