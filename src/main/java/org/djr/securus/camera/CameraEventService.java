@@ -9,6 +9,7 @@ import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.CameraEvent;
 import org.djr.securus.entities.User;
+import org.djr.securus.exceptions.BusinessException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
@@ -47,6 +48,7 @@ public class CameraEventService {
             em.persist(cameraEvent);
         } catch (Exception ex) {
             log.debug("persistCameraPostEvent() didn't find or couldn't save camera event", ex);
+            throw new BusinessException("failed to persist video to data store");
         }
     }
 

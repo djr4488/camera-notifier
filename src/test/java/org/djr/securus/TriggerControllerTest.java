@@ -1,12 +1,10 @@
 package org.djr.securus;
 
 import junit.framework.TestCase;
-import org.apache.commons.codec.binary.Base64;
 import org.djr.securus.camera.CameraHttpTriggerService;
 import org.djr.securus.camera.rest.trigger.TriggerEvent;
 import org.djr.securus.cdi.logs.LoggerProducer;
 import org.djr.securus.entities.User;
-import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.user.UserLookupService;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;

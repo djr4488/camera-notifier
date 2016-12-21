@@ -6,8 +6,11 @@ import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.User;
 import org.djr.securus.user.PasswordUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by djr4488 on 12/19/16.
@@ -33,6 +36,7 @@ public class CommonTestEntityUtils {
         camera.setCameraTriggerUrl("triggerUrl");
         camera.setCameraAdministrator("admin");
         camera.setCameraPassword("password");
+        camera.setProcessPostEvents(true);
         return camera;
     }
 
@@ -46,5 +50,12 @@ public class CommonTestEntityUtils {
     public static TriggerEvent getTriggerEvent() {
         TriggerEvent triggerEvent = new TriggerEvent(1L, "zoneName1");
         return triggerEvent;
+    }
+
+    public static CameraPostEvent getCameraPostEvent() {
+        CameraPostEvent cameraPostEvent = new CameraPostEvent();
+        cameraPostEvent.setCameraName("name");
+        cameraPostEvent.setUserName("userName");
+        return cameraPostEvent;
     }
 }

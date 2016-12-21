@@ -3,6 +3,7 @@ package org.djr.securus;
 import com.codahale.metrics.annotation.Timed;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.User;
+import org.djr.securus.exceptions.BusinessException;
 import org.djr.securus.messaging.email.EmailService;
 import org.djr.securus.camera.CameraEventService;
 import org.djr.securus.user.UserLookupService;
@@ -29,12 +30,13 @@ public class CameraController {
     @Timed
     public void handleCameraPostEvent(@Observes CameraPostEvent cameraPostEvent) {
         log.debug("handleCameraPostEvent() cameraPostEvent:{}", cameraPostEvent);
+        User user = userLookupService.lookupUserByUserName(cameraPostEvent.getUserName());
         try {
             cameraEventService.persistCameraPostEvent(cameraPostEvent);
-        } catch (Exception ex) {
+        } catch (BusinessException ex) {
             log.error("handleCameraPostEvent() cameraPostEvent:{} failed to write to database with exception:{}", cameraPostEvent, ex);
+            emailService.sendEmail("Unable to save video in persistent store", user.getEmailAddress(), "If emailing video was enabled, video attachment will be sent shortly");
         }
-        User user = userLookupService.lookupUserByUserName(cameraPostEvent.getUserName());
         if (isCameraPostEventAllowed(cameraPostEvent.getCameraName(), cameraPostEvent.getUserName())) {
             emailService.sendFileAttachmentEmail(cameraPostEvent, user.getEmailAddress());
         }
