@@ -147,4 +147,55 @@ public class CameraControllerTest extends TestCase {
         verify(emailService, times(1)).sendFileAttachmentEmail(cameraPostEvent, "test@test.com");
         verify(f, times(1)).delete();
     }
+
+
+    //given: camera notify event
+    //  and: user
+    //  and: camera found configured
+    // when: handling the notify event
+    // then: expect the notify event to send an email
+    @Test
+    public void testCameraNotifyEventSuccess() {
+        CameraNotifyEvent cameraNotifyEvent = CommonTestEntityUtils.getCameraNotifyEvent();
+        User user = CommonTestEntityUtils.getUser();
+        Camera camera = CommonTestEntityUtils.getCamera("name", "zoneName");
+        when(userLookupService.lookupUserByUserName("userName")).thenReturn(user);
+        when(cameraEventService.lookupCameraByNameAndUser("name", "user")).thenReturn(camera);
+        cameraController.handleCameraNotifyEvent(cameraNotifyEvent);
+        verify(emailService, times(1)).sendNotifyEmail("name");
+    }
+
+    //given: camera notify event
+    //  and: user
+    //  and: no camera found configured
+    // when: handling the notify event
+    // then: expect the notify event to send an email
+    @Test
+    public void testCameraNotifyEventSuccessNoCameraConfigured() {
+        CameraNotifyEvent cameraNotifyEvent = CommonTestEntityUtils.getCameraNotifyEvent();
+        User user = CommonTestEntityUtils.getUser();
+        Camera camera = null;
+        when(userLookupService.lookupUserByUserName("userName")).thenReturn(user);
+        when(cameraEventService.lookupCameraByNameAndUser("name", "userName")).thenReturn(camera);
+        cameraController.handleCameraNotifyEvent(cameraNotifyEvent);
+        verify(emailService, times(1)).sendNotifyEmail("name");
+    }
+
+    //given: camera notify event
+    //  and: user
+    //  and: camera found configured
+    //  and: process notify event not enabled
+    // when: handling the notify event
+    // then: expect the notify event to send an email
+    @Test
+    public void testCameraNotifyEventSuccessNoProcessEvents() {
+        CameraNotifyEvent cameraNotifyEvent = CommonTestEntityUtils.getCameraNotifyEvent();
+        User user = CommonTestEntityUtils.getUser();
+        Camera camera = CommonTestEntityUtils.getCamera("name", "zoneName");
+        camera.setProcessNotifyEvents(false);
+        when(userLookupService.lookupUserByUserName("userName")).thenReturn(user);
+        when(cameraEventService.lookupCameraByNameAndUser("name", "user")).thenReturn(camera);
+        cameraController.handleCameraNotifyEvent(cameraNotifyEvent);
+        verify(emailService, never()).sendNotifyEmail("name");
+    }
 }

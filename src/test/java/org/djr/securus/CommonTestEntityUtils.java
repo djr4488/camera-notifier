@@ -37,6 +37,7 @@ public class CommonTestEntityUtils {
         camera.setCameraAdministrator("admin");
         camera.setCameraPassword("password");
         camera.setProcessPostEvents(true);
+        camera.setProcessNotifyEvents(true);
         return camera;
     }
 
@@ -57,5 +58,10 @@ public class CommonTestEntityUtils {
         cameraPostEvent.setCameraName("name");
         cameraPostEvent.setUserName("userName");
         return cameraPostEvent;
+    }
+
+    public static CameraNotifyEvent getCameraNotifyEvent() {
+        CameraNotifyEvent cameraNotifyEvent = new CameraNotifyEvent("name", "0.0.0.0", "auth", "user", "password");
+        return cameraNotifyEvent;
     }
 }
