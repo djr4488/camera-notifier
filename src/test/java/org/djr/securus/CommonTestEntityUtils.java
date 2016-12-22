@@ -3,9 +3,13 @@ package org.djr.securus;
 import org.apache.commons.codec.binary.Base64;
 import org.djr.securus.camera.rest.trigger.TriggerEvent;
 import org.djr.securus.entities.Camera;
+import org.djr.securus.entities.Token;
 import org.djr.securus.entities.User;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.user.rest.add.AddUserRequest;
+import org.djr.securus.user.rest.login.LoginRequest;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,5 +73,19 @@ public class CommonTestEntityUtils {
     public static AddUserRequest getAddUserRequest() {
         AddUserRequest addUserRequest = new AddUserRequest("user", "password", "password", "test@test.com");
         return addUserRequest;
+    }
+
+    public static LoginRequest getLoginRequest() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUserName("user");
+        loginRequest.setPassword("password");
+        return loginRequest;
+    }
+
+    public static Token getToken(User user) {
+        DateTime dateTime = DateTime.now().withYear(2016).withMonthOfYear(DateTimeConstants.JANUARY)
+                .withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
+                .withMillisOfSecond(0);
+        return new Token("token", dateTime.toDate(), user);
     }
 }

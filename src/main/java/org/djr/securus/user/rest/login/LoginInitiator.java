@@ -9,7 +9,6 @@ import org.djr.securus.entities.User;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,8 +26,6 @@ import javax.ws.rs.core.Response;
 public class LoginInitiator {
     @Inject
     private Logger log;
-    @Inject
-    private Event<LoginRequest> eventBus;
     @Inject
     private UserController userController;
     @Inject
@@ -48,7 +45,8 @@ public class LoginInitiator {
         if (!isValidSession(session)) {
             user = userController.validateUser(loginRequest.getUserName(), loginRequest.getPassword(),
                     request.getRemoteAddr(), "LOGIN");
-            if (null != user) {session = request.getSession();
+            if (null != user) {
+                session = request.getSession();
                 resp = Response.ok()
                         .entity(new LoginResponse("/api/user/management", null, null))
                         .build();
