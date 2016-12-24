@@ -38,7 +38,7 @@ public class PasswordInitiator {
     @ApiOperation(value = "doChangePassword", notes = "Change user password")
     public Response doChangePassword(@Context HttpServletRequest request, ChangePasswordRequest changePasswordRequest) {
         log.info("doChangePassword() entered");
-        Long userId = (Long)request.getSession().getAttribute("userId");
+        Long userId = (Long)request.getSession(false).getAttribute("userId");
         boolean success = userController.changePassword(userId, changePasswordRequest.getOldPassword(),
                 changePasswordRequest.getNewPassword(), changePasswordRequest.getConfirmPassword(),
                 request.getRemoteAddr());

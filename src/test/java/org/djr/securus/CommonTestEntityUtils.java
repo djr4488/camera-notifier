@@ -8,6 +8,7 @@ import org.djr.securus.entities.User;
 import org.djr.securus.user.PasswordUtils;
 import org.djr.securus.user.rest.add.AddUserRequest;
 import org.djr.securus.user.rest.login.LoginRequest;
+import org.djr.securus.user.rest.password.ChangePasswordRequest;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
@@ -87,5 +88,13 @@ public class CommonTestEntityUtils {
                 .withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
                 .withMillisOfSecond(0);
         return new Token("token", dateTime.toDate(), user);
+    }
+
+    public static ChangePasswordRequest getChangePasswordRequest() {
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setOldPassword("old");
+        request.setNewPassword("new");
+        request.setConfirmPassword("new");
+        return request;
     }
 }
