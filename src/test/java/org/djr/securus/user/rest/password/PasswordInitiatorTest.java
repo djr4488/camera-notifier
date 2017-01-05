@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,7 @@ public class PasswordInitiatorTest extends TestCase {
     private PasswordInitiator passwordInitiator;
 
     @Test
-    public void doChangePasswordSuccess() {
+    public void testDoChangePasswordSuccess() {
         HttpServletRequest httpReq = mock(HttpServletRequest.class);
         HttpSession session = mock(HttpSession.class);
         ChangePasswordRequest req = CommonTestEntityUtils.getChangePasswordRequest();
@@ -48,7 +49,7 @@ public class PasswordInitiatorTest extends TestCase {
     }
 
     @Test(expected = UserException.class)
-    public void doChangePasswordFails() {
+    public void testDoChangePasswordFails() {
         HttpServletRequest httpReq = mock(HttpServletRequest.class);
         HttpSession session = mock(HttpSession.class);
         ChangePasswordRequest req = CommonTestEntityUtils.getChangePasswordRequest();
@@ -59,5 +60,33 @@ public class PasswordInitiatorTest extends TestCase {
                 .thenReturn(false);
         Response resp = passwordInitiator.doChangePassword(httpReq, req);
         assertNull(resp);
+    }
+
+    @Test
+    public void testDoInitForgotPassword() {
+        HttpServletRequest httpReq = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        InitForgotPasswordRequest request = CommonTestEntityUtils.getInitForgotPasswordRequest();
+        when(httpReq.getSession(false)).thenReturn(session);
+        when(session.getAttribute("userId")).thenReturn(1L);
+        when(httpReq.getRemoteAddr()).thenReturn("0.0.0.0");
+        doNothing().when(userController).passwordRecovery(request, "0.0.0.0");
+        Response response = passwordInitiator.doInitForgotPassword(httpReq, request);
+        assertNotNull(response);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testDoChangeForgottenPassword() {
+        HttpServletRequest httpReq = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        ChangeForgottenPasswordRequest request = CommonTestEntityUtils.getChangeForgottenPasswordRequest();
+        when(httpReq.getSession(false)).thenReturn(session);
+        when(session.getAttribute("userId")).thenReturn(1L);
+        when(httpReq.getRemoteAddr()).thenReturn("0.0.0.0");
+        doNothing().when(userController).recoverPassword(request, "0.0.0.0");
+        Response response = passwordInitiator.doChangeForgottenPassword(httpReq, request);
+        assertNotNull(response);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 }

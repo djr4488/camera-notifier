@@ -2,6 +2,7 @@ package org.djr.securus;
 
 import junit.framework.TestCase;
 import org.djr.securus.camera.CameraHttpTriggerService;
+import org.djr.securus.camera.CameraHttpTriggerServiceTest;
 import org.djr.securus.camera.rest.trigger.TriggerEvent;
 import org.djr.securus.cdi.logs.LoggerProducer;
 import org.djr.securus.entities.User;
