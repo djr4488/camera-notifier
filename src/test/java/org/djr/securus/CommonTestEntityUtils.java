@@ -1,6 +1,9 @@
 package org.djr.securus;
 
 import org.apache.commons.codec.binary.Base64;
+import org.djr.securus.camera.rest.management.AddCameraEvent;
+import org.djr.securus.camera.rest.management.DeleteCameraEvent;
+import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.camera.rest.trigger.TriggerEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.Token;
@@ -108,5 +111,28 @@ public class CommonTestEntityUtils {
     public static ChangeForgottenPasswordRequest getChangeForgottenPasswordRequest() {
         ChangeForgottenPasswordRequest request = new ChangeForgottenPasswordRequest("test", "token", "new", "new");
         return request;
+    }
+
+    public static AddCameraEvent getAddCameraEvent() {
+        AddCameraEvent addCameraEvent = new AddCameraEvent();
+        addCameraEvent.setUserId(1L);
+        addCameraEvent.setCameraName("name");
+        addCameraEvent.setCameraZone("zone");
+        return addCameraEvent;
+    }
+
+    public static DeleteCameraEvent getDeleteCameraEvent() {
+        DeleteCameraEvent deleteCameraEvent = new DeleteCameraEvent();
+        deleteCameraEvent.setUserId(1L);
+        deleteCameraEvent.setCameraName("name");
+        return deleteCameraEvent;
+    }
+
+    public static UpdateCameraEvent getUpdateCameraEvent() {
+        UpdateCameraEvent updateCameraEvent = new UpdateCameraEvent();
+        updateCameraEvent.setUserId(1L);
+        updateCameraEvent.setCameraName("name");
+        updateCameraEvent.setCameraZone("zone");
+        return updateCameraEvent;
     }
 }

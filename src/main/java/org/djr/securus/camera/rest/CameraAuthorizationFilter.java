@@ -1,9 +1,14 @@
 package org.djr.securus.camera.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
+
 import javax.inject.Inject;
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
@@ -32,7 +37,7 @@ public class CameraAuthorizationFilter implements Filter {
                 HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest);
                 wrapper.setAttribute("userName", authMap.get("userName"));
                 wrapper.setAttribute("password", authMap.get("password"));
-                filterChain.doFilter(servletRequest, servletResponse);
+                filterChain.doFilter(wrapper.getRequest(), servletResponse);
             } catch (Exception ex) {
                 log.error("authorization error cannot decode auth", ex);
                 throw new ServletException("Failed to authorization securus");

@@ -3,20 +3,23 @@ package org.djr.securus.camera;
 import junit.framework.TestCase;
 import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CommonTestEntityUtils;
+import org.djr.securus.camera.rest.management.AddCameraEvent;
+import org.djr.securus.camera.rest.management.DeleteCameraEvent;
+import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.CameraEvent;
+import org.djr.securus.entities.User;
 import org.djr.securus.exceptions.BusinessException;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -76,5 +79,44 @@ public class CameraEventServiceTest extends TestCase {
         when(f.getName()).thenReturn("fileName.avi");
         cameraEventService.persistCameraPostEvent(cameraPostEvent);
         verify(em, never()).persist(any(CameraEvent.class));
+    }
+
+    @Test
+    public void testAddCamera() {
+        AddCameraEvent addCameraEvent = CommonTestEntityUtils.getAddCameraEvent();
+        User user = CommonTestEntityUtils.getUser();
+        ArgumentCaptor<Camera> cameraArgumentCaptor = ArgumentCaptor.forClass(Camera.class);
+        cameraEventService.addCamera(addCameraEvent, user);
+        verify(em, times(1)).persist(cameraArgumentCaptor.capture());
+        Camera camera = cameraArgumentCaptor.getValue();
+        assertNotNull(camera);
+        assertEquals(addCameraEvent.getCameraName(), camera.getCameraName());
+        assertEquals(user.getUserName(), camera.getUser().getUserName());
+    }
+
+    @Test
+    public void testDeleteCamera() {
+        DeleteCameraEvent deleteCameraEvent = CommonTestEntityUtils.getDeleteCameraEvent();
+        User user = CommonTestEntityUtils.getUser();
+        when(em.createNamedQuery("deleteCamera", Camera.class)).thenReturn(cameraQuery);
+        cameraEventService.deleteCamera(deleteCameraEvent, user);
+        verify(cameraQuery, times(1)).executeUpdate();
+    }
+
+    @Test
+    public void testUpdateCamera() {
+        UpdateCameraEvent updateCameraEvent = CommonTestEntityUtils.getUpdateCameraEvent();
+        User user = CommonTestEntityUtils.getUser();
+        Camera cameraLookup = CommonTestEntityUtils.getCamera("name", "zone");
+        cameraLookup.setUser(user);
+        ArgumentCaptor<Camera> cameraArgumentCaptor = ArgumentCaptor.forClass(Camera.class);
+        when(em.createNamedQuery("findByCameraNameAndUserName", Camera.class)).thenReturn(cameraQuery);
+        when(cameraQuery.getSingleResult()).thenReturn(cameraLookup);
+        cameraEventService.updateCamera(updateCameraEvent, user);
+        verify(em, times(1)).merge(cameraArgumentCaptor.capture());
+        Camera camera = cameraArgumentCaptor.getValue();
+        assertNotNull(camera);
+        assertEquals(updateCameraEvent.getCameraName(), camera.getCameraName());
+        assertEquals(user.getUserName(), camera.getUser().getUserName());
     }
 }

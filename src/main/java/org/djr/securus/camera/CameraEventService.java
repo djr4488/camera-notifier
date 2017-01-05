@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.djr.securus.CameraPostEvent;
 import org.djr.securus.CameraUtilities;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
+import org.djr.securus.camera.rest.management.CameraManagementEvent;
 import org.djr.securus.camera.rest.management.DeleteCameraEvent;
 import org.djr.securus.camera.rest.management.UpdateCameraEvent;
 import org.djr.securus.entities.Camera;
@@ -64,19 +65,7 @@ public class CameraEventService {
     public void addCamera(AddCameraEvent addCameraEvent, User user) {
         log.debug("addCamera() addCameraEvent:{}", addCameraEvent);
         Camera camera = new Camera();
-        try {
-            BeanUtils.copyProperties(camera, addCameraEvent);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            camera.setCameraName(addCameraEvent.getCameraName());
-            camera.setCameraAdministrator(addCameraEvent.getCameraAdministrator());
-            camera.setCameraPassword(addCameraEvent.getCameraPassword());
-            camera.setProcessNotifyEvents(addCameraEvent.isProcessNotifyEvents());
-            camera.setSendNotifyEventAsEmail(addCameraEvent.isSendNotifyEventAsEmail());
-            camera.setSendNotifyEventAsSms(addCameraEvent.isSendNotifyEventAsSms());
-            camera.setProcessPostEvents(addCameraEvent.isProcessPostEvents());
-            camera.setCameraTriggerUrl(addCameraEvent.getCameraTriggerUrl());
-            camera.setCameraZone(addCameraEvent.getCameraZone());
-        }
+        setCameraParametersFromCameraEvent(camera, addCameraEvent);
         camera.setUser(user);
         em.persist(camera);
     }
@@ -92,16 +81,22 @@ public class CameraEventService {
     public void updateCamera(UpdateCameraEvent updateCameraEvent, User user) {
         log.debug("updateCamera() updateCameraEvent:{}", updateCameraEvent);
         Camera camera = lookupCameraByNameAndUser(updateCameraEvent.getCameraName(), user.getUserName());
-        camera.setCameraName(updateCameraEvent.getCameraName());
-        camera.setCameraAdministrator(updateCameraEvent.getCameraAdministrator());
-        camera.setCameraPassword(updateCameraEvent.getCameraPassword());
-        camera.setProcessNotifyEvents(updateCameraEvent.isProcessNotifyEvents());
-        camera.setSendNotifyEventAsEmail(updateCameraEvent.isSendNotifyEventAsEmail());
-        camera.setSendNotifyEventAsSms(updateCameraEvent.isSendNotifyEventAsSms());
-        camera.setProcessPostEvents(updateCameraEvent.isProcessPostEvents());
-        camera.setCameraTriggerUrl(updateCameraEvent.getCameraTriggerUrl());
-        camera.setCameraZone(updateCameraEvent.getCameraZone());
-        camera.setLastUpdatedAt(DateTime.now().toDate());
+        setCameraParametersFromCameraEvent(camera, updateCameraEvent);
         em.merge(camera);
+    }
+
+    private <T extends CameraManagementEvent> void setCameraParametersFromCameraEvent(Camera camera, T cameraEvent) {
+        camera.setCameraName(cameraEvent.getCameraName());
+        camera.setCameraAdministrator(cameraEvent.getCameraAdministrator());
+        camera.setCameraPassword(cameraEvent.getCameraPassword());
+        camera.setProcessNotifyEvents(cameraEvent.isProcessNotifyEvents());
+        camera.setSendNotifyEventAsEmail(cameraEvent.isSendNotifyEventAsEmail());
+        camera.setSendNotifyEventAsSms(cameraEvent.isSendNotifyEventAsSms());
+        camera.setProcessPostEvents(cameraEvent.isProcessPostEvents());
+        camera.setCameraTriggerUrl(cameraEvent.getCameraTriggerUrl());
+        camera.setCameraZone(cameraEvent.getCameraZone());
+        if (cameraEvent instanceof UpdateCameraEvent) {
+            camera.setLastUpdatedAt(DateTime.now().toDate());
+        }
     }
 }

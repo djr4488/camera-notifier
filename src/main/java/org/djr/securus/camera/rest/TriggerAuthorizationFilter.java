@@ -25,6 +25,7 @@ public class TriggerAuthorizationFilter implements Filter {
     private Logger log;
     @Inject
     private UserController userController;
+    private static final String TRIGGER = "TRIGGER";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -36,7 +37,8 @@ public class TriggerAuthorizationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest)servletRequest;
         String authorization = req.getHeader("Authorization");
         Map<String, String> authMap = CameraAuthenticationUtils.getUserNameAndPasswordAsMap(authorization);
-        User user = userController.validateUser(authMap.get("userName"), authMap.get("password"), req.getRemoteAddr(), "TRIGGER");
+        log.debug("doFilter() validating userName:{}, password:{}, ip:{}, event:{}", authMap.get("userName"), authMap.get("password"), req.getRemoteAddr(), TRIGGER);
+        User user = userController.validateUser(authMap.get("userName"), authMap.get("password"), req.getRemoteAddr(), TRIGGER);
         if (null != user) {
             HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(req);
             wrapper.setAttribute("user_id", user.getId());
