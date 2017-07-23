@@ -26,11 +26,13 @@ I'm usually updating or adding to this on a nightly basis.  Usually during the w
 2. You need to mark what you want for motion detection
 3. You need to go to HTTP page under the events subsection
 4. You need to provide the URL and port that this software is running at(e.g. http://a.b.c.d:8080/api/camera/post/<your camera name no spaces>)
-5. Eventually, if there is enough support for this software maybe I will centralize where it runs at and require a user name and password
+5. ~~Eventually, if there is enough support for this software maybe I will centralize where it runs at and require a user name and password~~ You will need to create a user through the addUser endpoint of the app but first;
 6. Once your camera is setup, you will need TomEE 7.0.x and configure the tomee.xml adding a <Resource> section for your email see below in the tomee config section.
 7. Compile the war file(eventually I will provide a self executable jar, this is still an app in very early development)
 8. Deploy the app to TomEE
-9. This should be it, at this point your camera should talk to this app and send you emails when it sees any motion
+9. To add a user, you can use the swagger interface(I don't yet have a UI, a sample request is provided below)
+10. You will also need to add your camera via the swagger interface, and a sample request is also provided below
+11. The swagger interface can be found if running on a local machine: http://localhost:8080/
 
 ## TODOs
 1. ~~Add database configuration to tomee.xml~~
@@ -83,3 +85,28 @@ I can be contacted via github, and the issues tabs I believe.  Or you can email 
     </Resource>
 </tomee>
 ```
+
+##Sample Add User Request
+```
+{
+  "userName" : "your user name",
+  "password" : "your password",
+  "emailAddress" : "an email address you would to forward video to",
+  "confirmPassword" : "repeat your password"
+}
+```
+##Sample Add Camera Request
+```
+{
+  "cameraName" : "your camera name",
+  "cameraAdministrator" : "your camera admin user name(used for event notifications eventually)",
+  "cameraPassword" : "admin user password",
+  "processNotifyEvents" : false,
+  "processPostEvents" : true,
+  "sendNotifyEventAsEmail" : false,
+  "sendPostEventAsEmail" : true,
+  "cameraTriggerUrl" : "url of your camera http_trigger.cgi(used for trigger events; like front door opening)",
+  "cameraZone" : "useful name for where the camera is located"
+}
+```
+
