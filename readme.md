@@ -28,11 +28,12 @@ I'm usually updating or adding to this on a nightly basis.  Usually during the w
 4. You need to provide the URL and port that this software is running at(e.g. http://a.b.c.d:8080/api/camera/post/<your camera name no spaces>)
 5. ~~Eventually, if there is enough support for this software maybe I will centralize where it runs at and require a user name and password~~ You will need to create a user through the addUser endpoint of the app but first;
 6. Once your camera is setup, you will need TomEE 7.0.x and configure the tomee.xml adding a <Resource> section for your email see below in the tomee config section.
-7. Compile the war file(eventually I will provide a self executable jar, this is still an app in very early development)
-8. Deploy the app to TomEE
-9. To add a user, you can use the swagger interface(I don't yet have a UI, a sample request is provided below)
-10. You will also need to add your camera via the swagger interface, and a sample request is also provided below
-11. The swagger interface can be found if running on a local machine: http://localhost:8080/
+7. You will so need to stand up a mysql instance, and configure the tomee.xml below for its configuration, I use mysql personally
+8. Compile the war file(eventually I will provide a self executable jar, this is still an app in very early development)
+9. Deploy the app to TomEE
+10. To add a user, you can use the swagger interface(I don't yet have a UI, a sample request is provided below)
+11. You will also need to add your camera via the swagger interface, and a sample request is also provided below
+12. The swagger interface can be found if running on a local machine: http://localhost:8080/
 
 ## TODOs
 1. ~~Add database configuration to tomee.xml~~
