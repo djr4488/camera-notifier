@@ -4,6 +4,8 @@ import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.beanutils.BeanUtils;
+import org.djr.securus.UserController;
+import org.djr.securus.entities.Camera;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by djr4488 on 12/10/16.
@@ -31,6 +36,8 @@ public class UserCameraInitiator {
     private Logger log;
     @Inject
     private Event<CameraManagementEvent> eventBus;
+    @Inject
+    private UserController userController;
 
     @POST
     @Path("add")
@@ -106,5 +113,24 @@ public class UserCameraInitiator {
         updateCameraEvent.setUserId((Long)request.getSession().getAttribute("userId"));
         eventBus.fire(updateCameraEvent);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("cameras")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Timed
+    @ApiOperation(value = "doGetCameras", notes = "Gets user cameras")
+    public Response doGetCameras(@Context HttpServletRequest request) {
+        log.info("doGetCameras() userId:{}", request.getSession().getAttribute("userId"));
+        Long userId = (Long)request.getSession(false).getAttribute("userId");
+        List<Camera> userCameras = userController.getCameraList(userId);
+        List<CameraInfo> cameraInfoList = new ArrayList<>();
+        if (null != userCameras && !userCameras.isEmpty()) {
+            for (Camera camera : userCameras) {
+                cameraInfoList.add(new CameraInfo(camera.getId(), camera.getCameraName()));
+            }
+        }
+        return Response.ok(new GetCamerasResponse(cameraInfoList)).build();
     }
 }

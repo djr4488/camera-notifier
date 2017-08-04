@@ -43,9 +43,11 @@ public class LoginInitiator {
         HttpSession session = request.getSession(false);
         User user;
         if (!isValidSession(session)) {
+            log.debug("doLogin() no valid session detected");
             user = userController.validateUser(loginRequest.getUserName(), loginRequest.getPassword(),
                     request.getRemoteAddr(), "LOGIN");
             if (null != user) {
+                log.debug("doLogin() valid user found");
                 session = request.getSession();
                 resp = Response.ok()
                         .entity(new LoginResponse("/api/user/management", null, null))
@@ -53,11 +55,13 @@ public class LoginInitiator {
                 session.setAttribute("token", tokenService.generateToken(user).getToken());
                 session.setAttribute("userId", user.getId());
             } else {
+                log.debug("doLogin() no valid user found");
                 resp = Response.status(Response.Status.UNAUTHORIZED)
                         .entity(new LoginResponse(null, "User or password don't match", "Failed Login"))
                         .build();
             }
         } else {
+            log.debug("doLogin() already logged in");
             // already logged in
             resp = Response.ok()
                     .entity(new LoginResponse("/api/user/management", null, null))
@@ -68,7 +72,7 @@ public class LoginInitiator {
 
     private boolean isValidSession(HttpSession session) {
         boolean isValidSession = false;
-        if (null != session) {
+        if (null != session && null != session.getAttribute("token")) {
             isValidSession = true;
         }
         return isValidSession;

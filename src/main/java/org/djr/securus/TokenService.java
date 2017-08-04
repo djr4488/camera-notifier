@@ -25,6 +25,7 @@ public class TokenService {
     private EntityManager em;
 
     public Token generateToken(User user) {
+        log.debug("generateToken() entered");
         Token token = new Token(UUID.randomUUID().toString(), DateTime.now().toDate(), user);
         em.persist(token);
         return token;

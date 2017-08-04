@@ -4,6 +4,7 @@ import org.djr.securus.camera.CameraEventService;
 import org.djr.securus.camera.rest.management.AddCameraEvent;
 import org.djr.securus.camera.rest.management.DeleteCameraEvent;
 import org.djr.securus.camera.rest.management.UpdateCameraEvent;
+import org.djr.securus.entities.Camera;
 import org.djr.securus.entities.UserLogin;
 import org.djr.securus.exceptions.BusinessException;
 import org.djr.securus.messaging.email.EmailService;
@@ -25,6 +26,7 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by djr4488 on 12/10/16.
@@ -158,6 +160,17 @@ public class UserController {
             cameraEventService.updateCamera(updateCameraEvent, user);
         }
     }
+
+    public List<Camera> getCameraList(Long userId) {
+        log.debug("getCameraList() userId:{}", userId);
+        User user = findUser(userId);
+        List<Camera> userCameras = null;
+        if (null != user) {
+            userCameras = user.getCameras();
+        }
+        return userCameras;
+    }
+
 
     private boolean isExistingUser(String userName) {
         try {
