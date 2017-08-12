@@ -84,6 +84,7 @@ public class LoginInitiatorTest extends TestCase {
         User user = null;
         Token token = CommonTestEntityUtils.getToken(user);
         when(httpReq.getSession(false)).thenReturn(null);
+        when(httpReq.getRemoteAddr()).thenReturn("0.0.0.0");
         when(userContoller.validateUser(request.getUserName(), request.getPassword(), "0.0.0.0", "LOGIN"))
                 .thenReturn(user);
         Response response = loginInitiator.doLogin(httpReq, request);
@@ -99,6 +100,8 @@ public class LoginInitiatorTest extends TestCase {
         User user = CommonTestEntityUtils.getUser();
         Token token = CommonTestEntityUtils.getToken(user);
         when(httpReq.getSession(false)).thenReturn(session);
+        when(httpReq.getRemoteAddr()).thenReturn("0.0.0.0");
+        when(session.getAttribute("token")).thenReturn(token);
         when(userContoller.validateUser(request.getUserName(), request.getPassword(), "0.0.0.0", "LOGIN"))
                 .thenReturn(user);
         when(tokenService.generateToken(user)).thenReturn(token);
