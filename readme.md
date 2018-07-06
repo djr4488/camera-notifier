@@ -1,4 +1,4 @@
-#Camera Notifier
+# Camera Notifier
 This side project started out as a way for me to get my old home security cameras to send me email when they saw motion.  As I started digging through the old iControl cameras, I found other neat things I could possibly do;
 
 1. Administrate the camera remotely(see; [Sercomm API findings here](https://github.com/edent/Sercomm-API))
@@ -14,10 +14,10 @@ This lead me to want to to continue further and see if I would be able to build 
 
 I will distribute this with the GPLv3 license.  If you're redistributing this software and selling that redistribution I ask one thing first email me and let me know, beyond that, this software is free to use for anything and any project you want to do to build on top of it.
 
-##Other little notes
+## Other little notes
 I'm usually updating or adding to this on a nightly basis.  Usually during the week I add one feature/endpoint to accomplish something useful.  I won't always note in the readme what was added, but github's commit comments will usually serve to indicate what is new/changed.
 
-##Status
+## Status
 * Build: [![Build Status](https://travis-ci.org/djr4488/camera-notifier.svg?branch=master)](https://travis-ci.org/djr4488/camera-notifier)
 * * Coverage: [![Coverage Status](https://coveralls.io/repos/github/djr4488/camera-notifier/badge.svg?branch=master)](https://coveralls.io/github/djr4488/camera-notifier?branch=master)  [![codecov](https://codecov.io/gh/djr4488/camera-notifier/branch/master/graph/badge.svg)](https://codecov.io/gh/djr4488/camera-notifier)
 
@@ -55,7 +55,7 @@ All of the above depends on level of interest in the application, and how much f
 ## Contact
 I can be contacted via github, and the issues tabs I believe.  Or you can email me, promise it isn't hard to find that email I'm sure.
 
-##TomEE configuration
+## TomEE configuration (tomee.xml)
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <tomee>
@@ -87,7 +87,7 @@ I can be contacted via github, and the issues tabs I believe.  Or you can email 
 </tomee>
 ```
 
-##Sample Add User Request
+## Sample Add User Request
 ```
 {
   "userName" : "your user name",
@@ -96,7 +96,7 @@ I can be contacted via github, and the issues tabs I believe.  Or you can email 
   "confirmPassword" : "repeat your password"
 }
 ```
-##Sample Add Camera Request
+## Sample Add Camera Request
 ```
 {
   "cameraName" : "your camera name",
